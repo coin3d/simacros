@@ -34,10 +34,24 @@ true)
   sim_ac_libscenery_save_LDFLAGS=$LDFLAGS
   sim_ac_libscenery_save_LIBS=$LIBS
   sim_ac_libscenery_debug=false
+  test -n "`echo -- $CPPFLAGS $CFLAGS $CXXFLAGS | grep -- '-g\\>'`" &&
+    sim_ac_libscenery_debug=true
   test -z "$sim_ac_libscenery_path" -a x"$prefix" != xNONE &&
     sim_ac_libscenery_path=$prefix
   sim_ac_libscenery_name=scenery
   if test -n "$sim_ac_libscenery_path"; then
+    for sim_ac_libscenery_candidate in \
+      `( ls $sim_ac_libscenery_path/lib/scenery*.lib;
+         ls $sim_ac_libscenery_path/lib/scenery*d.lib ) 2>/dev/null`
+    do
+      case $sim_ac_libscenery_candidate in
+      *d.lib)
+        $sim_ac_libscenery_debug &&
+          sim_ac_libscenery_name=`basename $sim_ac_libscenery_candidate .lib` ;;
+      *.lib)
+        sim_ac_libscenery_name=`basename $sim_ac_libscenery_candidate .lib` ;;
+      esac
+    done
     sim_ac_libscenery_cppflags="-I$sim_ac_libscenery_path/include"
     CPPFLAGS="$CPPFLAGS $sim_ac_libscenery_cppflags"
     sim_ac_libscenery_ldflags="-L$sim_ac_libscenery_path/lib"
@@ -61,7 +75,7 @@ true)
       sim_ac_libscenery_cppflags="$sim_ac_libscenery_cppflags -DSS_DLL"
 ])])
 
-  sim_ac_libscenery_libs="-lscenery"
+  sim_ac_libscenery_libs="-l$sim_ac_libscenery_name"
   LIBS="$sim_ac_libscenery_libs $LIBS"
   AC_TRY_LINK([
 #include <sim/scenery/scenery.h>

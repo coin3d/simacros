@@ -1,85 +1,18 @@
-More opn the problematic case/esac switch on MKS.  Reordering these two
-cases ensures that the case triggers when it should.
+There was a case of -L*) case switches matching for arguments like -lXm,
+when they should have entered the following -l*) case switch.  Setting this
+variable fixes this problem.
 
   Lars J
 
---- ltmain.in.orig	Mon Jul 14 16:01:44 2003
-+++ ltmain.in	Mon Jul 14 17:12:24 2003
-@@ -1226,38 +1226,6 @@
- 	continue
- 	;;
+--- ltmain.in.orig	Thu Jul 24 11:42:10 2003
++++ ltmain.in	Thu Jul 24 11:44:31 2003
+@@ -96,6 +96,9 @@
+ # Make sure IFS has a sensible default
+ : ${IFS=" 	"}
  
--      -L*)
--	dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
--	# We need an absolute path.
--	case $dir in
--	[\\/]* | [A-Za-z]:[\\/]*) ;;
--	*)
--	  absdir=`cd "$dir" && pwd`
--	  if test -z "$absdir"; then
--	    $echo "$modename: cannot determine absolute directory name of \`$dir'" 1>&2
--	    exit 1
--	  fi
--	  dir="$absdir"
--	  ;;
--	esac
--	case "$deplibs " in
--	*" -L$dir "*) ;;
--	*)
--	  deplibs="$deplibs -L$dir"
--	  lib_search_path="$lib_search_path $dir"
--	  ;;
--	esac
--	case $host in
--	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
--	  case :$dllsearchpath: in
--	  *":$dir:"*) ;;
--	  *) dllsearchpath="$dllsearchpath:$dir";;
--	  esac
--	  ;;
--	esac
--	continue
--	;;
--
-       -l*)
- 	if test "X$arg" = "X-lc" || test "X$arg" = "X-lm"; then
- 	  case $host in
-@@ -1287,6 +1255,38 @@
- 	 esac
- 	fi
- 	deplibs="$deplibs $arg"
-+	continue
-+	;;
++# Make sure MKS sh doesn't run case/esac switches in case-insensitive mode
++DUALCASE=1
 +
-+      -L*)
-+	dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
-+	# We need an absolute path.
-+	case $dir in
-+	[\\/]* | [A-Za-z]:[\\/]*) ;;
-+	*)
-+	  absdir=`cd "$dir" && pwd`
-+	  if test -z "$absdir"; then
-+	    $echo "$modename: cannot determine absolute directory name of \`$dir'" 1>&2
-+	    exit 1
-+	  fi
-+	  dir="$absdir"
-+	  ;;
-+	esac
-+	case "$deplibs " in
-+	*" -L$dir "*) ;;
-+	*)
-+	  deplibs="$deplibs -L$dir"
-+	  lib_search_path="$lib_search_path $dir"
-+	  ;;
-+	esac
-+	case $host in
-+	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
-+	  case :$dllsearchpath: in
-+	  *":$dir:"*) ;;
-+	  *) dllsearchpath="$dllsearchpath:$dir";;
-+	  esac
-+	  ;;
-+	esac
- 	continue
- 	;;
- 
+ if test "$build_libtool_libs" != yes && test "$build_old_libs" != yes; then
+   $echo "$modename: not configured to build any kind of library" 1>&2
+   $echo "Fatal configuration error.  See the $PACKAGE docs for more information." 1>&2

@@ -97,7 +97,7 @@ if $sim_ac_have_have_bytesize_types; then
   AC_DEFINE_UNQUOTED([HAVE_UINT8_T], [1], [define this if the type is available on the system])
   AC_DEFINE(SIM_AC_DEF_PREFIX[]_UINT8_T, [uint8_t], [define this to a type of the indicated bitwidth])
   AC_DEFINE_UNQUOTED([HAVE_INT16_T], [1], [define this if the type is available on the system])
-dnl  AC_DEFINE(SIM_AC_DEF_PREFIX[]_INT16_T, [int16_t], [define this to a type of the indicated bitwidth])
+  AC_DEFINE(SIM_AC_DEF_PREFIX[]_INT16_T, [int16_t], [define this to a type of the indicated bitwidth])
   AC_DEFINE_UNQUOTED([HAVE_UINT16_T], [1], [define this if the type is available on the system])
   AC_DEFINE(SIM_AC_DEF_PREFIX[]_UINT16_T, [uint16_t], [define this to a type of the indicated bitwidth])
   AC_DEFINE_UNQUOTED([HAVE_INT32_T], [1], [define this if the type is available on the system])
@@ -218,3 +218,4 @@ SIM_AC_HAVE_BYTESIZE_TYPES_IFELSE([
   SIM_AC_BYTESIZE_TYPE(uintptr_t, sizeof(void *), [u_intptr_t "_W64 unsigned int" "unsigned int" "unsigned long" u_int64_t "unsigned long long" "unsigned __int64"], [], AC_MSG_WARN([could not find unsigned int-pointer type]), $1)
 ], [$1])
 ])# SIM_AC_DEFINE_BYTESIZE_TYPES
+

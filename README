@@ -1,0 +1,13 @@
+README
+======
+
+This module contains autoconf macros which are shared between several
+SIM projects, or macros which so far are used only in one project but
+are generic enough to be reusable in future projects.
+
+The code for all macros should be considered to be in the Public Domain,
+unless otherwise specified.  If you use any one of these macros in your
+own projects and make improvements, please let us know so we can
+incorporate your modifications.
+
+Morten Eriksen, <mortene@sim.no>

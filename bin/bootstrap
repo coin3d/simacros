@@ -243,7 +243,7 @@ echo "Syncing common files with simacros..."
 # These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
          cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
-         doc/errors.txt cfg/gendsp.sh
+         doc/errors.txt cfg/gendsp.sh.in
 do
   src=$SIMACROSDIR/$i
   dst=$cwd/cfg/`basename $i`

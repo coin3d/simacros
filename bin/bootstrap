@@ -116,10 +116,11 @@ fi
 
 grep -q AC_PROG_LIBTOOL configure.ac
 if test $? -eq 0; then copylt=true; else copylt=false; fi
+if test -f $cwd/cfg/ltmain.sh; then copylt=false; fi
 if $copylt; then
   echo "libtoolize..."
   # This copies in ltmain.sh and ltconfig.
-  libtoolize --copy --force
+  libtoolize --automake --copy --force
 
 # Activate this if we find it necessary. 20021108 mortene.
 #  ( cd cfg;

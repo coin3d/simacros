@@ -44,6 +44,19 @@ if test x"$with_opengl" != x"no"; then
     fi
   fi
 
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
+
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
@@ -104,6 +117,19 @@ if test x"$with_opengl" != x"no"; then
     fi
   fi
 
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
+
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
   # Mac OS X framework (no X11, -framework OpenGL) 
@@ -163,6 +189,19 @@ if test x"$with_opengl" != x"no"; then
       sim_ac_glext_cppflags=-I$sim_ac_gl_hpux/include
     fi
   fi
+
+  # On Mac OS X, GL is part of the optional X11 fraemwork
+  case $host_os in
+  darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
+    if test x$sim_ac_enable_darwin_x11 = xtrue; then
+      sim_ac_gl_darwin_x11=/usr/X11R6
+      if test -d $sim_ac_gl_darwin_x11; then
+        sim_ac_gl_cppflags=-I$sim_ac_gl_darwin_x11/include
+      fi
+    fi
+    ;;
+  esac
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
@@ -268,6 +307,7 @@ if test x"$with_opengl" != xno; then
   sim_ac_use_framework_option=false;
   case $host_os in
   darwin*)
+    AC_REQUIRE([SIM_AC_CHECK_X11])
     if test x"$GCC" = x"yes" -a x$sim_ac_enable_darwin_x11 = xfalse; then
       SIM_AC_CC_COMPILER_OPTION([-framework OpenGL], [sim_ac_use_framework_option=true])
     else

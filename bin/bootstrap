@@ -138,17 +138,16 @@ if test -f configure.ac; then CONFIGURESCRIPT=configure.ac; fi
 
 grep -q AC_PROG_LIBTOOL $CONFIGURESCRIPT
 if test $? -eq 0; then copylt=true; else copylt=false; fi
-if test -f $cwd/cfg/ltmain.sh; then copylt=false; fi
 if $copylt; then
   echo "libtoolize..."
   # This copies in ltmain.sh and ltconfig.
   libtoolize --automake --copy --force
 
-# Activate this if we find it necessary. 20021108 mortene.
-#  ( cd cfg;
-#    test -f ltmain.sh.diff && patch -p0 < ltmain.sh.diff
-#    test -f ltconfig.diff  && patch -p0 < ltconfig.diff
-#  )
+# Local Libtool patches.
+( cd $cwd/cfg/;
+  test -f ltmain.sh.diff && patch -p0 < ltmain.sh.diff
+  test -f ltconfig.diff  && patch -p0 < ltconfig.diff
+)
 
 fi
 

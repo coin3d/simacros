@@ -87,7 +87,7 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 
 echo "Copying simacros files ..."
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
-         cfg/missing cfg/mkinstalldirs \
+         cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
          doc/errors.txt
 do
   src=$SIMACROSDIR/$i

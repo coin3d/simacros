@@ -188,7 +188,7 @@ known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
-      if test x"$sim_ac_want_x11" = xno; then   
+      if test x$sim_ac_enable_darwin_x11 = xfalse; then
       # Using Qt/X11 but option --enable-darwin-x11 not given
       AC_TRY_LINK([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)

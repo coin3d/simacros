@@ -1,0 +1,120 @@
+If Autoconf is ever going to work with the Borland C++ compiler, testing on
+being defined and testing on booleans has to be done with their appropriate
+commands.
+
+  Lars J
+
+--- functions.m4.orig	Mon Aug 18 15:46:28 2003
++++ functions.m4	Mon Aug 18 15:47:07 2003
+@@ -955,7 +955,7 @@
+ # endif
+ #endif
+ 
+-#if HAVE_UNISTD_H
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+ 
+@@ -1334,10 +1334,10 @@
+    AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM(
+ [AC_INCLUDES_DEFAULT
+-#if HAVE_SYS_SELECT_H
++#ifdef HAVE_SYS_SELECT_H
+ # include <sys/select.h>
+ #endif
+-#if HAVE_SYS_SOCKET_H
++#ifdef HAVE_SYS_SOCKET_H
+ # include <sys/socket.h>
+ #endif
+ ],
+@@ -1372,7 +1372,7 @@
+ [AC_CACHE_CHECK(whether setpgrp takes no argument, ac_cv_func_setpgrp_void,
+ [AC_RUN_IFELSE(
+ [AC_LANG_PROGRAM(
+-[#if HAVE_UNISTD_H
++[#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+ ],
+@@ -1728,7 +1728,7 @@
+   [AC_CACHE_CHECK(for working fork, ac_cv_func_fork_works,
+     [AC_RUN_IFELSE([/* By Ruediger Kuhlmann. */
+       #include <sys/types.h>
+-      #if HAVE_UNISTD_H
++      #ifdef HAVE_UNISTD_H
+       # include <unistd.h>
+       #endif
+       /* Some systems only have a dummy stub for fork() */
+@@ -1754,10 +1754,10 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/wait.h>
+-#if HAVE_UNISTD_H
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+-#if HAVE_VFORK_H
++#ifdef HAVE_VFORK_H
+ # include <vfork.h>
+ #endif
+ /* On some sparc systems, changes by the child to local and incoming
+--- headers.m4.orig	Mon Aug 18 15:46:33 2003
++++ headers.m4	Mon Aug 18 15:47:53 2003
+@@ -223,10 +223,10 @@
+ dnl If ever you change this variable, please keep autoconf.texi in sync.
+ ac_includes_default="\
+ #include <stdio.h>
+-#if HAVE_SYS_TYPES_H
++#ifdef HAVE_SYS_TYPES_H
+ # include <sys/types.h>
+ #endif
+-#if HAVE_SYS_STAT_H
++#ifdef HAVE_SYS_STAT_H
+ # include <sys/stat.h>
+ #endif
+ #if STDC_HEADERS
+@@ -237,23 +237,23 @@
+ #  include <stdlib.h>
+ # endif
+ #endif
+-#if HAVE_STRING_H
+-# if !STDC_HEADERS && HAVE_MEMORY_H
++#ifdef HAVE_STRING_H
++# if !STDC_HEADERS && defined(HAVE_MEMORY_H)
+ #  include <memory.h>
+ # endif
+ # include <string.h>
+ #endif
+-#if HAVE_STRINGS_H
++#ifdef HAVE_STRINGS_H
+ # include <strings.h>
+ #endif
+-#if HAVE_INTTYPES_H
++#ifdef HAVE_INTTYPES_H
+ # include <inttypes.h>
+ #else
+ # if HAVE_STDINT_H
+ #  include <stdint.h>
+ # endif
+ #endif
+-#if HAVE_UNISTD_H
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif"
+ ])dnl
+--- specific.m4.orig	Mon Aug 18 15:47:57 2003
++++ specific.m4	Mon Aug 18 15:48:13 2003
+@@ -259,10 +259,10 @@
+ 
+ #include <sys/types.h>
+ #include <signal.h>
+-#if HAVE_UNISTD_H
++#ifdef HAVE_UNISTD_H
+ # include <unistd.h>
+ #endif
+-#if HAVE_SYS_WAIT_H
++#ifdef HAVE_SYS_WAIT_H
+ # include <sys/wait.h>
+ #endif
+ 

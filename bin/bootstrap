@@ -195,6 +195,8 @@ autoheader || exit 1
 exit=$?
 test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
+egrep -n "^[^#]*endif" configure.ac /dev/null | sed -e "s/$/   ==> use 'fi' instead?/"
+
 echo "Running autoconf (generating the configure script)..."
 # FIXME: should investigate if we can fix the Autoconf warnings
 # we get, instead of hiding them with grep. 20030522 mortene.

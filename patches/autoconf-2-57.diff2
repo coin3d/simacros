@@ -1,0 +1,37 @@
+Needed to avoid making ac-substs with "," characters in them, since that
+makes the sed scripts used by config.status not behave correctly on MKS.
+
+  Lars J
+
+--- lib/autoconf/general.m4.orig	Wed Jun 11 15:26:31 2003
++++ lib/autoconf/general.m4	Wed Jun 11 15:29:32 2003
+@@ -563,7 +563,7 @@
+ AC_SUBST(prefix, NONE)dnl
+ program_prefix=NONE
+ program_suffix=NONE
+-AC_SUBST(program_transform_name, [s,x,x,])dnl
++AC_SUBST(program_transform_name, [s%x%x%])dnl
+ silent=
+ site=
+ srcdir=
+@@ -1517,9 +1517,9 @@
+ test "$program_suffix" != NONE &&
+   program_transform_name="s,\$,$program_suffix,;$program_transform_name"
+ # Double any \ or $.  echo might interpret backslashes.
+-# By default was `s,x,x', remove it if useless.
++# By default was `s%x%x%', remove it if useless.
+ cat <<\_ACEOF >conftest.sed
+-[s/[\\$]/&&/g;s/;s,x,x,$//]
++[s/[\\$]/&&/g;s/;s%x%x%$//]
+ _ACEOF
+ program_transform_name=`echo $program_transform_name | sed -f conftest.sed`
+ rm conftest.sed
+@@ -1677,7 +1677,7 @@
+ # will get canonicalized.
+ test -n "$target_alias" &&
+   test "$program_prefix$program_suffix$program_transform_name" = \
+-    NONENONEs,x,x, &&
++    NONENONEs%x%x% &&
+   program_prefix=${target_alias}-[]dnl
+ ])# AC_CANONICAL_TARGET
+ 

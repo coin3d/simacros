@@ -11,13 +11,6 @@ SIMACRODIR=`dirname $0`/../share/simacros
 wd=`echo "$0" | sed 's,[^\/]*$,,g'`;
 me=`echo "$0" | sed 's,^.*/,,g'`;
 
-cleandir=`echo $SIMACRODIR | sed -e 's/\/[^\/]*\/\.\.\//\//g' | sed -e 's/^\///g'`
-prefixdir=`echo $wd | sed -e 's/\/[^.\/]*/\.\.\//g'`
-relcfgdir=$prefixdir$cleandir/cfg
-
-sedstr="s,%SIMACRODIR%,$relcfgdir,g"
-sed -e "$sedstr" configure.in.in > configure.in
-
 if test x"$@" = x"" -a ! -f $SIMACRODIR/cfg/mkinstalldirs; then
   echo "$me: assuming '--add' was meant."
   set : --add
@@ -34,7 +27,7 @@ AUTOMAKE_ADD=
 
 libtoolize=false
 #
-# FIXME: Do we want to do this  automagically? (kintel 20020715)
+# FIXME: Do we really want to do this automagically? (kintel 20020715)
 #
 #if test "$1" = "--clean"; then
 #  rm -f aclocal.m4 \
@@ -96,6 +89,11 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 
 # **************************************************************************
 
+echo "Copying simacros files ..."
+cp -R $SIMACRODIR/cfg .
+
+# **************************************************************************
+
 echo "Running aclocal (generating aclocal.m4)..."
 rm -f aclocal.m4.old
 test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
@@ -110,7 +108,8 @@ if test -f aclocal.m4.old; then
   fi
 fi
 
-#FIXME: Need this? (kintel 20020715)
+#FIXME: This should be done within the simacros module
+#       if we still need it (kintel 20020715)
 #if $libtoolize; then
 #  libtoolize --copy --force
 #  ( cd cfg;

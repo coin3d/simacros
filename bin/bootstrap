@@ -6,26 +6,25 @@
 
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-SIMACRODIR=`dirname $0`/../share/simacros
+SIMACROSDIR=`dirname $0`/..
 
 wd=`echo "$0" | sed 's,[^\/]*$,,g'`;
 me=`echo "$0" | sed 's,^.*/,,g'`;
+cwd=`pwd`
 
-if test x"$@" = x"" -a ! -f $SIMACRODIR/cfg/mkinstalldirs; then
-  echo "$me: assuming '--add' was meant."
-  set : --add
-  shift
+cd $wd
+if test ! -f ./"$me"; then
+  echo >&2 "$me: error: unexpected problem with your shell - bailing out"
+  exit 1
 fi
+cd $cwd
 
 AUTOCONF_VER=2.5[023456789]
 AUTOMAKE_VER=1.5
 LIBTOOL_VER=1.4.2
 
-PROJECT=Coin
-MACRODIR=$SIMACRODIR/cfg/m4
 AUTOMAKE_ADD=
 
-libtoolize=false
 #
 # FIXME: Do we really want to do this automagically? (kintel 20020715)
 #
@@ -50,7 +49,6 @@ libtoolize=false
 #  exit
 #elif test "$1" = "--add"; then
 #  AUTOMAKE_ADD="--add-missing --gnu --copy"
-#  libtoolize=true
 #fi
 
 echo "Checking the installed configuration tools..."
@@ -58,7 +56,7 @@ echo "Checking the installed configuration tools..."
 if test -z "`autoconf --version 2>/dev/null | grep \" $AUTOCONF_VER\"`"; then
     echo ""
     echo "You must have autoconf version $AUTOCONF_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
+    echo "generate configure information and Makefiles."
     echo ""
     echo "Get ftp://ftp.gnu.org/gnu/autoconf/autoconf-$AUTOCONF_VER.tar.gz"
     DIE=true
@@ -67,18 +65,16 @@ fi
 if test -z "`automake --version 2>/dev/null | grep \" $AUTOMAKE_VER\"`"; then
     echo ""
     echo "You must have automake version $AUTOMAKE_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
+    echo "generate configure information and Makefiles."
     echo ""
-    echo "(The Automake version we are using is the bleeding edge"
-    echo "from the CVS repository.)"
+    echo "Get ftp://ftp.gnu.org/gnu/automake/automake-$AUTOMAKE_VER.tar.gz"
     DIE=true
 fi
 
 if test -z "`libtool --version 2>/dev/null | egrep \"$LIBTOOL_VER\"`"; then
-# if true; then
     echo ""
     echo "You must have libtool version $LIBTOOL_VER installed to"
-    echo "generate configure information and Makefiles for $PROJECT."
+    echo "generate configure information and Makefiles."
     echo ""
     echo "Get ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VER.tar.gz"
     DIE=true
@@ -90,14 +86,24 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 # **************************************************************************
 
 echo "Copying simacros files ..."
-cp -R $SIMACRODIR/cfg .
+for i in config.guess config.sub depcomp install-sh missing mkinstalldirs
+do
+  src=$SIMACROSDIR/cfg/$i
+  dst=$cwd/cfg/$i
+  if ! cmp -s $src $dst; then
+    echo "cp $src $dst"
+    cp $src $dst
+  fi
+done
 
 # **************************************************************************
 
-echo "Running aclocal (generating aclocal.m4)..."
+MACRODIR=$SIMACROSDIR/cfg/m4
+echo "Running aclocal -I $MACRODIR (generating $cwd/aclocal.m4)..."
 rm -f aclocal.m4.old
 test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
 aclocal -I $MACRODIR
+if test $? -ne 0; then exit 1; fi
 if test -f aclocal.m4.old; then
   if cmp -s aclocal.m4 aclocal.m4.old; then
     echo "aclocal: aclocal.m4 is unchanged"
@@ -108,19 +114,20 @@ if test -f aclocal.m4.old; then
   fi
 fi
 
-#FIXME: This should be done within the simacros module
-#       if we still need it (kintel 20020715)
-#if $libtoolize; then
-#  libtoolize --copy --force
+grep -q AC_PROG_LIBTOOL configure.ac
+if test $? -eq 0; then copylt=true; else copylt=false; fi
+if $copylt; then
+  echo "libtoolize..."
+  # This copies in ltmain.sh and ltconfig.
+  libtoolize --copy --force
+
+# Activate this if we find it necessary. 20021108 mortene.
 #  ( cd cfg;
 #    test -f ltmain.sh.diff && patch -p0 < ltmain.sh.diff
 #    test -f ltconfig.diff  && patch -p0 < ltconfig.diff
 #  )
-#fi
 
-# probably not necessary to run autoconf twice
-# echo "Running autoconf (generating the configure script)..."
-# ( autoconf 3>&1 1>&2 2>&3 | grep -v AR_FLAGS) 3>&1 1>&2 2>&3
+fi
 
 echo "Running autoheader (generating config.h.in)..."
 autoheader

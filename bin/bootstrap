@@ -19,6 +19,8 @@ if test ! -f ./"$me"; then
 fi
 cd $cwd
 
+# trap 'echo "Failed";' 1
+
 AUTOCONF_VER=2.5[023456789]
 AUTOMAKE_VER=1.7.5
 LIBTOOL_VER=1.5
@@ -142,6 +144,8 @@ if $copylt; then
   echo "libtoolize..."
   # This copies in ltmain.sh and ltconfig.
   libtoolize --automake --copy --force || exit 1
+  exit=$?
+  test $exit != 0 && echo "exit code was: $exit"
 
 # Local Libtool patches.
 ( cd $cwd/cfg/;
@@ -191,16 +195,22 @@ fi
 
 echo "Running autoheader (generating config.h.in)..."
 autoheader || exit 1
+exit=$?
+test $exit != 0 && echo "exit code was: $exit"
+
+echo "Running autoconf (generating the configure script)..."
+( autoconf 3>&1 1>&2 2>&3 | grep -v AR_FLAGS ) 3>&1 1>&2 2>&3
+exit=$?
+test $exit != 0 && echo "exit code was: $exit"
 
 echo "Running automake (generating the Makefile.in files)..."
 # FIXME: should investigate if we can fix the Automake warnings
 # we get, instead of hiding them with grep. 20030522 mortene.
 ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
   grep -v -e 'not a standard library name' \
-          -e 'created both with libtool and without') 3>&1 1>&2 2>&3 || exit 1
-
-echo "Running autoconf (generating the configure script)..."
-( autoconf 3>&1 1>&2 2>&3 | grep -v AR_FLAGS) 3>&1 1>&2 2>&3 || exit 1
+          -e 'created both with libtool and without') 3>&1 1>&2 2>&3
+exit=$?
+test $exit != 0 && echo "exit code was: $exit"
 
 echo "Done."
 

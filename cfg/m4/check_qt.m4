@@ -539,6 +539,31 @@ if $sim_cv_def_qwidget_showfullscreen; then
 fi
 ]) # SIM_AC_QWIDGET_SHOWFULLSCREEN
 
+# SIM_AC_QAPPLICATION_HASPENDINGEVENTS
+# -----------------------------
+#
+# Use the macro for its side-effect: it defines 
+# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if 
+# QApplication::hasPendingEvents() is available (that
+# function wasn't introduced in Qt until version 3.0).
+#
+# Author: Peder Blekken <pederb@sim.no>.
+
+AC_DEFUN([SIM_AC_QAPPLICATION_HASPENDINGEVENTS], [
+AC_CACHE_CHECK(
+  [whether QApplication::hasPendingEvents() is available],
+  sim_cv_def_qapplication_haspendingevents,
+  [AC_TRY_LINK([#include <qapplication.h>],
+               [int argc; char ** argv; QApplication app(argc, argv); (void) app.hasPendingEvents();],
+               [sim_cv_def_qapplication_haspendingevents=true],
+               [sim_cv_def_qapplication_haspendingevents=false])])
+
+if $sim_cv_def_qapplication_haspendingevents; then
+  AC_DEFINE([HAVE_QAPPLICATION_HASPENDINGEVENTS], 1,
+            [Define this if QApplication::hasPendingEvents() is available])
+fi
+]) # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
+
 
 # SIM_AC_QT_KEYPAD_DEFINE
 # -----------------------

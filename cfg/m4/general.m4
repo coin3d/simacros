@@ -1,4 +1,20 @@
-# sim_ac_CHECK_HEADER(HEADER-FILE, [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
+# SIM_AC_DYNLIB_EXT
+# --------------------------------------------
+# Find out what the shared library suffix is on this platform.
+# (Consider this a hack -- AFAIK, the "shrext" variable from Libtool
+# is undocumented and not guaranteed to stick around forever.)
+#
+# Sets the sim_ac_shlibext variable to the extension name.
+
+AC_DEFUN([SIM_AC_DYNLIB_EXT],
+[
+AC_MSG_CHECKING([for shared library suffix])
+eval "sim_ac_shlibext=$shrext"
+AC_MSG_RESULT($sim_ac_shlibext)
+])
+
+
+# SIM_AC_CHECK_HEADER(HEADER-FILE, [ACTION-IF-FOUND], [ACTION-IF-NOT-FOUND])
 # --------------------------------------------------------------------------
 # Modified AC_CHECK_HEADER to use AC_TRY_COMPILE instead of AC_TRY_CPP,
 # as we can get false positives and/or false negatives when running under

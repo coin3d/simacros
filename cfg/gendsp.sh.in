@@ -148,7 +148,7 @@ if test x"$1" = x"--register-public-header"; then
   # relheader=`echo "$relheader"`
   # finalheader=`echo "$finalheader"`
 
-  echo "copy $headerfile $finalheader >nil:" >>"$installheadersfile"
+  echo "copy $headerfile $finalheader" >>"$installheadersfile"
   exit 0
 fi
 

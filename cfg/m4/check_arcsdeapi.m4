@@ -45,7 +45,7 @@ if test x"$with_sdeapi" != xno; then
   LIBS="$sim_ac_sdeapi_libs $LIBS"
 
   AC_CACHE_CHECK(
-    [for a Sdeapi development environment],
+    [for a ArcSDE C-api development environment],
     sim_cv_lib_sdeapi_avail,
     [AC_TRY_LINK([#include <sdetype.h>],
                  [SE_ERROR error;

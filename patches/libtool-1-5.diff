@@ -1,0 +1,11 @@
+--- libtool.m4.orig	Mon Jun  2 16:31:12 2003
++++ libtool.m4	Mon Jun  2 16:32:07 2003
+@@ -347,7 +347,7 @@
+   lt_save_ifs="$IFS"; IFS=$PATH_SEPARATOR
+   for dir in $PATH /usr/ucb; do
+     IFS="$lt_save_ifs"
+-    if (test -f $dir/echo || test -f $dir/echo$ac_exeext) &&
++    if (test -f "$dir/echo" || test -f "$dir/echo$ac_exeext") &&
+        test "X`($dir/echo '\t') 2>/dev/null`" = 'X\t' &&
+        echo_testing_string=`($dir/echo "$echo_test_string") 2>/dev/null` &&
+        test "X$echo_testing_string" = "X$echo_test_string"; then

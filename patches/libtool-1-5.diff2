@@ -1,0 +1,15 @@
+Needed so libtool doesn't drop arguments with /-characters in them.
+Another MKS weirdness...
+
+  Lars J
+
+--- ltmain.in.orig	Fri Jun 13 11:59:42 2003
++++ ltmain.in	Fri Jun 13 11:58:45 2003
+@@ -389,6 +389,7 @@
+ 	;;
+ 
+       normal )
++	true # MKS weirdness
+ 	# Accept any command-line options.
+ 	case $arg in
+ 	-o)

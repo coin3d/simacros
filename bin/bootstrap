@@ -86,10 +86,12 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 # **************************************************************************
 
 echo "Copying simacros files ..."
-for i in config.guess config.sub depcomp install-sh missing mkinstalldirs
+for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
+         cfg/missing cfg/mkinstalldirs \
+         doc/errors.txt
 do
   src=$SIMACROSDIR/cfg/$i
-  dst=$cwd/cfg/$i
+  dst=$cwd/$i
   if ! cmp -s $src $dst; then
     echo "cp $src $dst"
     cp $src $dst

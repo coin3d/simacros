@@ -248,7 +248,8 @@ fi
 #
 #                $sim_ac_ogl_cppflags
 #                $sim_ac_ogl_ldflags
-#                $sim_ac_ogl_libs
+#                $sim_ac_ogl_libs (OpenGL library and all dependencies)
+#                $sim_ac_ogl_lib (basename of OpenGL library)
 #
 # The necessary extra options are also automatically added to CPPFLAGS,
 # LDFLAGS and LIBS.
@@ -259,6 +260,7 @@ AC_DEFUN(SIM_AC_CHECK_OPENGL, [
 
 sim_ac_ogl_cppflags=
 sim_ac_ogl_ldflags=
+sim_ac_ogl_lib=
 sim_ac_ogl_libs=
 
 AC_ARG_WITH(
@@ -271,8 +273,8 @@ AC_ARG_WITH(
 ## Mac OS X uses some weird "framework" options.
 
 ## It's usually libGL.so on UNIX systems and opengl32.lib on MSWindows.
-sim_ac_ogl_glnames="-lGL -lopengl32"
-sim_ac_ogl_mesaglnames=-lMesaGL
+sim_ac_ogl_glnames="GL opengl32"
+sim_ac_ogl_mesaglnames=MesaGL
 
 if test "x$with_mesa" = "xyes"; then
   sim_ac_ogl_first=$sim_ac_ogl_mesaglnames
@@ -358,7 +360,7 @@ if test x"$with_opengl" != xno; then
       # Mac OS X uses nada (only LDFLAGS), which is why "" was set first
       for sim_ac_ogl_libcheck in "" $sim_ac_ogl_first $sim_ac_ogl_second; do
         if $sim_ac_glchk_hit; then :; else
-          LIBS="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
+          LIBS="-l${sim_ac_ogl_libcheck} $sim_ac_oglchk_pthreadslib $sim_ac_save_libs"
           AC_TRY_LINK(
             [#ifdef HAVE_WINDOWS_H
              #include <windows.h>
@@ -374,7 +376,8 @@ if test x"$with_opengl" != xno; then
             [glPointSize(1.0f);],
             [
              sim_ac_glchk_hit=true
-             sim_ac_ogl_libs="$sim_ac_ogl_libcheck $sim_ac_oglchk_pthreadslib"
+             sim_ac_ogl_lib=$sim_ac_ogl_libcheck
+             sim_ac_ogl_libs="-l${sim_ac_ogl_libcheck} $sim_ac_oglchk_pthreadslib"
             ]
           )
         fi
@@ -801,4 +804,3 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
     ifelse([$2], , :, [$2])
   fi
 ])
-

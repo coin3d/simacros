@@ -12,6 +12,15 @@ wd=`echo "$0" | sed 's,[^\/]*$,,g'`;
 me=`echo "$0" | sed 's,^.*/,,g'`;
 cwd=`pwd`
 
+if test -f configure.ac; then :; else
+  if test -f configure.in; then
+    echo >&2 "$me: old configure.in detected - rename to configure.ac"
+  else
+    echo >&2 "$me: you don't want to bootstrap in this directory - bailing out"
+    exit 1
+  fi
+fi
+
 cd $wd
 if test ! -f ./"$me"; then
   echo >&2 "$me: error: unexpected problem with your shell - bailing out"

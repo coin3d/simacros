@@ -83,8 +83,6 @@ true)
   sim_ac_freetype_save_LDFLAGS=$LDFLAGS
   sim_ac_freetype_save_LIBS=$LIBS
 
-case $host_os in
-*)
   sim_ac_freetype_debug=false
   test -n "`echo -- $CPPFLAGS $CFLAGS $CXXFLAGS | grep -- '-g\\>'`" &&
     sim_ac_freetype_debug=true
@@ -115,8 +113,6 @@ case $host_os in
     # unset sim_ac_freetype_candidate
     # unset sim_ac_freetype_path
   fi
-;;
-esac 
 
   SIM_AC_CHECK_HEADER_FREETYPE([CPPFLAGS="$CPPFLAGS $sim_ac_freetype_cppflags"])
 
@@ -154,5 +150,3 @@ else
 fi
 # unset sim_ac_want_freetype
 ])
-
-

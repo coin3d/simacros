@@ -30,6 +30,7 @@ AC_DEFUN([SIM_AC_COMPILER_CPLUSPLUS_FATAL_ERRORS], [
 
 AC_DEFUN([SIM_AC_COMPILER_INLINE_FOR], [
 
+AC_LANG_PUSH(C++)
 AC_CACHE_CHECK(
   [if the compiler handles for() loops in inlined constructors],
   sim_cv_c_inlinefor,
@@ -45,6 +46,7 @@ inline TestClass::TestClass(int) { for (int i=0; i<1; i++) i=0; }
                  [sim_cv_c_inlinefor=yes],
                  [sim_cv_c_inlinefor=no])
 ])
+AC_LANG_POP
 
 if test x"$sim_cv_c_inlinefor" = x"yes"; then
   ifelse([$1], , :, [$1])

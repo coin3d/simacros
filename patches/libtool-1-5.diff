@@ -1,3 +1,7 @@
+This patch has been submitted upstream to <bug-libtool@gnu.org>...
+
+  Lars J
+
 --- libtool.m4.orig	Mon Jun  2 16:31:12 2003
 +++ libtool.m4	Mon Jun  2 16:32:07 2003
 @@ -347,7 +347,7 @@

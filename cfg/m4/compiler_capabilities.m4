@@ -71,6 +71,7 @@ fi
 
 AC_DEFUN([SIM_AC_COMPILER_SWITCH_IN_VIRTUAL_DESTRUCTOR], [
 
+AC_LANG_PUSH(C++)
 AC_CACHE_CHECK(
   [if the compiler handles switch statements in virtual destructors],
   sim_cv_c_virtualdestrswitch,
@@ -81,6 +82,7 @@ hepp::~hepp() { switch(0) { } }
 [],
                   [sim_cv_c_virtualdestrswitch=yes],
                   [sim_cv_c_virtualdestrswitch=no])])
+AC_LANG_POP
 
 if test x"$sim_cv_c_virtualdestrswitch" = x"yes"; then
   ifelse([$1], , :, [$1])
@@ -104,6 +106,7 @@ fi
 
 AC_DEFUN([SIM_AC_COMPILER_CRAZY_GCC296_BUG], [
 
+AC_LANG_PUSH(C++)
 AC_CACHE_CHECK(
   [if this is a version of GCC with a known nasty optimization bug],
   sim_cv_c_gcctwonightysixbug,
@@ -145,6 +148,7 @@ main(void)
   [sim_cv_c_gcctwonightysixbug=false
    AC_MSG_WARN([can't check for GCC bug when cross-compiling, assuming it's ok])])
 ])
+AC_LANG_POP
 
 
 if $sim_cv_c_gcctwonightysixbug; then

@@ -57,7 +57,7 @@ if test x"$with_pthread" != xno; then
   AC_MSG_CHECKING([for POSIX threads])
   # At least under FreeBSD, we link to pthreads library with -pthread.
   for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
-    if ! $sim_ac_pthread_avail; then
+    if $sim_ac_pthread_avail; then :; else
       LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
       AC_TRY_LINK([#include <pthread.h>],
                   [(void)pthread_create(0L, 0L, 0L, 0L);],

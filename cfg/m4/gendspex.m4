@@ -63,7 +63,7 @@ if $sim_ac_make_dspex; then
     for sim_ac_dspex_header in $sim_ac_dspex_headers; do
       sim_ac_dspex_justname=`echo $sim_ac_dspex_header | sed -e "s%.*/%%"`
       sim_ac_dspex_dirname=`echo $sim_ac_dspex_header | sed -e "s%[[^/]]*\.h%%"`
-      if ! test -d "$2/$sim_ac_dspex_dirname"; then
+      if test -d "$2/$sim_ac_dspex_dirname"; then :; else
         mkdir -p "$2/$sim_ac_dspex_dirname"
       fi
       cp $1/$sim_ac_dspex_header \

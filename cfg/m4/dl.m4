@@ -44,7 +44,7 @@ if test x"$with_dl" != xno; then
   # At least under FreeBSD, dlopen() et al is part of the C library.
   # On HP-UX, dlopen() might reside in a library "svld" instead of "dl".
   for sim_ac_dl_libcheck in "" "-ldl" "-lsvld"; do
-    if ! $sim_ac_dl_avail; then
+    if $sim_ac_dl_avail; then :; else
       LIBS="$sim_ac_dl_libcheck $sim_ac_save_libs"
       AC_TRY_LINK([
 #ifdef HAVE_DLFCN_H

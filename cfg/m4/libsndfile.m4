@@ -48,7 +48,7 @@ if test x"$with_libsndfile" != xno; then
       sim_ac_lsf_libs="-lsndfile -llibsndfile"
       sim_ac_lsfchk_hit=false
       for sim_ac_lsf_lib in "" $sim_ac_lsf_libs; do
-        if ! $sim_ac_lsfchk_hit; then
+        if $sim_ac_lsfchk_hit; then :; else
           LIBS="$sim_ac_lsf_lib $sim_ac_save_libs"
           AC_TRY_LINK([#include <sndfile.h>],
                       [(void)sf_open(0, 0, 0);],

@@ -75,7 +75,7 @@ if $sim_ac_simaruba_desired; then
 
   AC_PATH_PROG(sim_ac_simaruba_configcmd, simaruba-config, false, $sim_ac_path)
 
-  if ! test "X$sim_ac_simaruba_configcmd" = "Xfalse"; then
+  if test "X$sim_ac_simaruba_configcmd" = "Xfalse"; then :; else
     test -n "$CONFIG" &&
       $sim_ac_simaruba_configcmd --alternate=$CONFIG >/dev/null 2>/dev/null &&
       sim_ac_simaruba_configcmd="$sim_ac_simaruba_configcmd --alternate=$CONFIG"
@@ -116,7 +116,7 @@ if $sim_ac_simaruba_desired; then
       LIBS=$sim_ac_save_libs
     ])
     sim_ac_simaruba_avail=$sim_cv_simaruba_avail
-    if ! $sim_ac_simaruba_avail; then
+    if $sim_ac_simaruba_avail; then :; else
       AC_MSG_WARN([
 Compilation and/or linking with the SIM Aruba main library SDK failed, for
 unknown reason. If you are familiar with configure-based configuration

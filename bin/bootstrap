@@ -38,12 +38,16 @@ GETTEXT_VER=0.10
 AUTOMAKE_ADD=
 
 do_aclocal=true
+do_automake=true # automake is _sloooow_
 
 for arg
 do
   case $arg in
   --no-aclocal )
     do_aclocal=false
+    ;;
+  --no-automake )
+    do_automake=false
     ;;
   * )
     echo >&2 "$me: don't know option '$arg'"
@@ -204,14 +208,18 @@ echo "Running autoconf (generating the configure script)..."
 exit=$?
 test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
-echo "Running automake (generating the Makefile.in files)..."
+if $do_automake; then
+  echo "Running automake (generating the Makefile.in files)..."
 # FIXME: should investigate if we can fix the Automake warnings
 # we get, instead of hiding them with grep. 20030522 mortene.
-( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
-  grep -v -e 'not a standard library name' \
-          -e 'created both with libtool and without') 3>&1 1>&2 2>&3
-exit=$?
-test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
+  ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
+    grep -v -e 'not a standard library name' \
+            -e 'created both with libtool and without') 3>&1 1>&2 2>&3
+  exit=$?
+  test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
+else
+  echo "$me: skipping automake..."
+fi
 
 # **************************************************************************
 

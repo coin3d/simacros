@@ -189,7 +189,7 @@ upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
       if test x"$sim_ac_want_x11" = xno; then   
-      # Qt/X11 needs X11, which you need to enable by --enable-x11
+      # Qt/X11 needs X11, which you need to enable by --enable-darwin-x11
       AC_TRY_LINK([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
                    #error blah!

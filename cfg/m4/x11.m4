@@ -19,9 +19,25 @@
 AC_DEFUN([SIM_AC_CHECK_X11], [
 AC_REQUIRE([AC_PATH_XTRA])
 
+sim_ac_enable_darwin_x11=true
+
+case $host_os in
+  darwin* ) 
+    AC_ARG_ENABLE([darwin-x11],
+      AC_HELP_STRING([--enable-darwin-x11],
+                     [enable X11 on Darwin [[default=--disable-darwin-x11]]]),
+      [case "${enableval}" in
+        yes | true) sim_ac_enable_darwin_x11=true ;;
+        no | false) sim_ac_enable_darwin_x11=false ;;
+        *) SIM_AC_ENABLE_ERROR([--enable-darwin-x11]) ;;
+      esac],
+      [sim_ac_enable_darwin_x11=false])
+  ;;
+esac
+
 sim_ac_x11_avail=no
 
-if test x"$no_x" != xyes; then
+if test x"$no_x" != xyes -a x"$sim_ac_enable_darwin_x11" = xtrue; then
   #  *** DEBUG ***
   #  Keep this around, as it can be handy when testing on new systems.
   # echo "X_CFLAGS: $X_CFLAGS"

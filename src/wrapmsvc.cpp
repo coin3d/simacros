@@ -620,7 +620,7 @@ main(int argc, char ** argv)
       wrapdbg = true;
     }
     else if (match(arg, "--wrapversion")) {
-      (void)fprintf(stdout, "$Revision$\n");
+      (void)fprintf(stdout, "$Revision$ (post disk-crash)\n");
       exit(0);
     }
 

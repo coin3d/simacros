@@ -10,7 +10,7 @@
 #
 # Author: Marius Kintel, <kintel@sim.no>
 
-AC_DEFUN(SIM_AC_PACKAGEMAKER_APP, [
+AC_DEFUN([SIM_AC_PACKAGEMAKER_APP], [
 sim_ac_packagemaker_app=false
 if test -d /Developer/Applications/PackageMaker.app; then
   sim_ac_packagemaker_app=/Developer/Applications/PackageMaker.app

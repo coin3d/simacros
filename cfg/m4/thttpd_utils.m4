@@ -13,14 +13,14 @@ dnl
 dnl	LIBS
 dnl
 
-define(AC_LBL_CHECK_LIB,
+define([AC_LBL_CHECK_LIB],
 [AC_MSG_CHECKING([for $2 in -l$1])
 dnl Use a cache variable name containing both the library and function name,
 dnl because the test really is for library $1 defining function $2, not
 dnl just for library $1.  Separate tests with the same $1 and different $2's
 dnl may have different results.
 ac_lib_var=`echo $1['_']$2['_']$5 | sed 'y%./+- %__p__%'`
-AC_CACHE_VAL(ac_cv_lbl_lib_$ac_lib_var,
+AC_CACHE_VAL([ac_cv_lbl_lib_$ac_lib_var],
 [ac_save_LIBS="$LIBS"
 LIBS="-l$1 $5 $LIBS"
 AC_TRY_LINK(dnl
@@ -40,18 +40,18 @@ char $2();
 LIBS="$ac_save_LIBS"
 ])dnl
 if eval "test \"`echo '$ac_cv_lbl_lib_'$ac_lib_var`\" = yes"; then
-  AC_MSG_RESULT(yes)
+  AC_MSG_RESULT([yes])
   ifelse([$3], ,
 [changequote(, )dnl
   ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
     -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
 changequote([, ])dnl
-  AC_DEFINE_UNQUOTED($ac_tr_lib)
+  AC_DEFINE_UNQUOTED([$ac_tr_lib])
   LIBS="-l$1 $LIBS"
 ], [$3])
 else
-  AC_MSG_RESULT(no)
-ifelse([$4], , , [$4
+  AC_MSG_RESULT([no])
+ifelse([$4], [], [], [$4
 ])dnl
 fi
 ])
@@ -91,21 +91,20 @@ dnl The check for libresolv is in case you are attempting to link
 dnl statically and happen to have a libresolv.a lying around (and no
 dnl libnsl.a).
 dnl
-AC_DEFUN(AC_LBL_LIBRARY_NET, [
+AC_DEFUN([AC_LBL_LIBRARY_NET], [
     # Most operating systems have gethostbyname() in the default searched
     # libraries (i.e. libc):
-    AC_CHECK_FUNC(gethostbyname, ,
+    AC_CHECK_FUNC([gethostbyname], ,
 	# Some OSes (eg. Solaris) place it in libnsl:
-	AC_LBL_CHECK_LIB(nsl, gethostbyname, , 
+	AC_LBL_CHECK_LIB([nsl], [gethostbyname], , 
 	    # Some strange OSes (SINIX) have it in libsocket:
 	    AC_LBL_CHECK_LIB(socket, gethostbyname, ,
 		# Unfortunately libsocket sometimes depends on libnsl.
 		# AC_CHECK_LIB's API is essentially broken so the
 		# following ugliness is necessary:
-		AC_LBL_CHECK_LIB(socket, gethostbyname,
+		AC_LBL_CHECK_LIB([socket], [gethostbyname],
 		    LIBS="-lsocket -lnsl $LIBS",
-		    AC_CHECK_LIB(resolv, gethostbyname),
-		    -lnsl))))
+		    AC_CHECK_LIB([resolv], [gethostbyname]), [-lnsl]))))
     AC_CHECK_FUNC(socket, , AC_CHECK_LIB(socket, socket, ,
 	AC_LBL_CHECK_LIB(socket, socket, LIBS="-lsocket -lnsl $LIBS", ,
 	    -lnsl)))
@@ -124,18 +123,18 @@ dnl results:
 dnl
 dnl	HAVE_TM_GMTOFF (defined)
 dnl
-AC_DEFUN(AC_ACME_TM_GMTOFF,
+AC_DEFUN([AC_ACME_TM_GMTOFF],
     [AC_MSG_CHECKING(if struct tm has tm_gmtoff member)
-    AC_CACHE_VAL(ac_cv_acme_tm_has_tm_gmtoff,
+    AC_CACHE_VAL([ac_cv_acme_tm_has_tm_gmtoff],
 	AC_TRY_COMPILE([
 #	include <sys/types.h>
 #	include <time.h>],
 	[u_int i = sizeof(((struct tm *)0)->tm_gmtoff)],
 	ac_cv_acme_tm_has_tm_gmtoff=yes,
 	ac_cv_acme_tm_has_tm_gmtoff=no))
-    AC_MSG_RESULT($ac_cv_acme_tm_has_tm_gmtoff)
+    AC_MSG_RESULT([$ac_cv_acme_tm_has_tm_gmtoff])
     if test $ac_cv_acme_tm_has_tm_gmtoff = yes ; then
-	    AC_DEFINE(HAVE_TM_GMTOFF, 1, [define if struct tm has the BSD tm_gmtoff member])
+	    AC_DEFINE([HAVE_TM_GMTOFF], [1], [define if struct tm has the BSD tm_gmtoff member])
     fi])
 
 dnl
@@ -149,15 +148,17 @@ dnl results:
 dnl
 dnl	HAVE_INT64T (defined)
 dnl
-AC_DEFUN(AC_ACME_INT64T,
+AC_DEFUN([AC_ACME_INT64T],
     [AC_MSG_CHECKING(if int64_t exists)
-    AC_CACHE_VAL(ac_cv_acme_int64_t,
+    AC_CACHE_VAL([ac_cv_acme_int64_t], [
 	AC_TRY_COMPILE([
 #	include <sys/types.h>],
 	[int64_t i64],
 	ac_cv_acme_int64_t=yes,
-	ac_cv_acme_int64_t=no))
-    AC_MSG_RESULT($ac_cv_acme_int64_t)
+	ac_cv_acme_int64_t=no)])
+    AC_MSG_RESULT([$ac_cv_acme_int64_t])
     if test $ac_cv_acme_int64_t = yes ; then
-	    AC_DEFINE(HAVE_INT64T, 1, [define it the type int67_t exists])
-    fi])
+	    AC_DEFINE([HAVE_INT64T], [1], [define it the type int67_t exists])
+    fi
+])
+

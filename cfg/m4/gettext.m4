@@ -11,7 +11,7 @@
 
 # serial 5
 
-AC_DEFUN(AM_WITH_NLS,
+AC_DEFUN([AM_WITH_NLS],
   [AC_MSG_CHECKING([whether NLS is requested])
     dnl Default is enabled NLS
     AC_ARG_ENABLE(nls,
@@ -198,7 +198,7 @@ AC_DEFUN(AM_WITH_NLS,
     AC_SUBST(POSUB)
   ])
 
-AC_DEFUN(SIM_GNU_GETTEXT,
+AC_DEFUN([SIM_GNU_GETTEXT],
   [AC_REQUIRE([AC_PROG_MAKE_SET])dnl
    AC_REQUIRE([AC_PROG_CC])dnl
    AC_REQUIRE([AC_PROG_RANLIB])dnl
@@ -307,3 +307,4 @@ strdup __argz_count __argz_stringify __argz_next])
    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
 	< $srcdir/po/POTFILES.in > po/POTFILES
   ])
+

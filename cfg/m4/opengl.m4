@@ -256,7 +256,7 @@ fi
 #
 # Authors: <larsa@sim.no>, <mortene@sim.no>.
 
-AC_DEFUN(SIM_AC_CHECK_OPENGL, [
+AC_DEFUN([SIM_AC_CHECK_OPENGL], [
 
 sim_ac_ogl_cppflags=
 sim_ac_ogl_ldflags=
@@ -599,7 +599,7 @@ fi
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN(SIM_AC_GLU_NURBSOBJECT, [
+AC_DEFUN([SIM_AC_GLU_NURBSOBJECT], [
 AC_CACHE_CHECK(
   [what structure to use in the GLU NURBS interface],
   sim_cv_func_glu_nurbsobject,
@@ -812,3 +812,4 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
     ifelse([$2], , :, [$2])
   fi
 ])
+

@@ -14,7 +14,7 @@
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN(SIM_AC_BYTEORDER_CONVERSION, [
+AC_DEFUN([SIM_AC_BYTEORDER_CONVERSION], [
 sim_ac_save_libs=$LIBS
 AC_CACHE_CHECK(
   [network byteorder conversion],
@@ -61,3 +61,4 @@ else
   $2
 fi
 ])
+

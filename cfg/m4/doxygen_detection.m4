@@ -11,7 +11,7 @@
 #
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-AC_DEFUN(SIM_AC_DOXYGEN_TOOL, [
+AC_DEFUN([SIM_AC_DOXYGEN_TOOL], [
 AC_ARG_WITH(
   [doxygen],
   AC_HELP_STRING([--with-doxygen=DIR],
@@ -27,7 +27,7 @@ if test x"$with_doxygen" != xno; then
     sim_ac_path=${with_doxygen}:$PATH
   fi
 
-  AC_PATH_PROG(sim_ac_doxygen_exe, doxygen, false, $sim_ac_path)
+  AC_PATH_PROG([sim_ac_doxygen_exe], [doxygen], [false], [$sim_ac_path])
   if test x"$sim_ac_doxygen_exe" = xfalse; then
     ifelse([$2], , :, [$2])
   else

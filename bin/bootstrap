@@ -235,9 +235,7 @@ echo "Syncing common files with simacros..."
 # These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
          cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
-         doc/errors.txt cfg/gendsp.sh cfg/gendspex.sh \
-         cfg/workspace_template_vc6.txt cfg/project_template_main_vc6.txt \
-         cfg/project_template_source_vc6.txt
+         doc/errors.txt cfg/gendsp.sh
 do
   src=$SIMACROSDIR/$i
   dst=$cwd/cfg/`basename $i`
@@ -251,7 +249,10 @@ done
 for i in cfg/m4/simage.m4 cfg/m4/coin.m4 \
          cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/sogtk.m4 cfg/m4/soqt.m4 \
          cfg/m4/smallchange.m4 cfg/m4/simvoleon.m4 \
-         bin/doxy4win.pl
+         bin/doxy4win.pl \
+         cfg/gendspex.sh \
+         cfg/workspace_template_vc6.txt cfg/project_template_main_vc6.txt \
+         cfg/project_template_source_vc6.txt
 do
   src=$SIMACROSDIR/$i
   dst=$cwd/cfg/`basename $i`

@@ -22,9 +22,9 @@ AC_PREREQ([2.14.1])
 AC_ARG_WITH(
   [sdeapi],
   AC_HELP_STRING([--with-sdeapi=DIR],
-                 [use the ArcSDE C-api library [default=yes]]),
+                 [use the ArcSDE C-api library [default=no]]),
   [],
-  [with_sdeapi=yes])
+  [with_sdeapi=no])
 
 sim_ac_sdeapi_avail=no
 
@@ -48,9 +48,9 @@ if test x"$with_sdeapi" != xno; then
     [for a Sdeapi development environment],
     sim_cv_lib_sdeapi_avail,
     [AC_TRY_LINK([#include <sdetype.h>],
-                 [SE_ERROR error;],
-                 [SE_CONNECTION connection;],
-                 [LONG rc = SE_connection_create("", "", "", "", "", &error, &connection);],
+                 [SE_ERROR error;
+                  SE_CONNECTION connection;
+                  LONG rc = SE_connection_create("", "", "", "", "", &error, &connection);],
                  [sim_cv_lib_sdeapi_avail=yes],
                  [sim_cv_lib_sdeapi_avail=no])])
 

@@ -1,5 +1,14 @@
-Needed so libtool doesn't drop arguments with /-characters in them.
-Another MKS sh weirdness...
+The MKS sh implementation has a bug in the "case" implementation it
+seems.  Without running true before certain case statements, the
+case-statements won't be executed.  Running ":" does not seem to
+work as an alternative, so it seems it is not just the return-value
+of the last command that affects this - the shell must apparently
+fork out the command to clean up so the case will run correctly.
+
+Strangely enough, the case bug also seems to be affected with whether
+the arguments contain "/"-characters - or it could just be that the
+bug triggers on some condition set up on the previous loop over the
+argument list...
 
   Lars J
 
@@ -21,3 +30,19 @@ Another MKS sh weirdness...
  	# Accept any command-line options.
  	case $arg in
  	-o)
+@@ -531,6 +531,7 @@
+ 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
+ 	    # Evaluate the configuration.
+ 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
++	    true # MKS weirdness
+ 	    case "$base_compile " in
+ 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
+ 	      # The compiler in the base compile command matches
+@@ -1635,6 +1636,7 @@
+ 	  if grep "^# ### BEGIN LIBTOOL TAG CONFIG: $z$" < "$0" > /dev/null; then
+ 	    # Evaluate the configuration.
+ 	    eval "`${SED} -n -e '/^# ### BEGIN LIBTOOL TAG CONFIG: '$z'$/,/^# ### END LIBTOOL TAG CONFIG: '$z'$/p' < $0`"
++	    true # MKS weirdness
+ 	    case $base_compile in
+ 	    "$CC "* | " $CC "* | "`$echo $CC` "* | " `$echo $CC` "*)
+ 	      # The compiler in $compile_command matches

@@ -184,14 +184,14 @@ fi
 echo "Running autoheader (generating config.h.in)..."
 autoheader || exit 1
 exit=$?
-test $exit != 0 && echo "exit code was: $exit"
+test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
 echo "Running autoconf (generating the configure script)..."
 # FIXME: should investigate if we can fix the Autoconf warnings
 # we get, instead of hiding them with grep. 20030522 mortene.
 ( autoconf 3>&1 1>&2 2>&3 | grep -v AR_FLAGS ) 3>&1 1>&2 2>&3
 exit=$?
-test $exit != 0 && echo "exit code was: $exit"
+test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
 echo "Running automake (generating the Makefile.in files)..."
 # FIXME: should investigate if we can fix the Automake warnings
@@ -200,7 +200,7 @@ echo "Running automake (generating the Makefile.in files)..."
   grep -v -e 'not a standard library name' \
           -e 'created both with libtool and without') 3>&1 1>&2 2>&3
 exit=$?
-test $exit != 0 && echo "exit code was: $exit"
+test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
 # **************************************************************************
 

@@ -28,6 +28,21 @@ GETTEXT_VER=0.10
 
 AUTOMAKE_ADD=
 
+do_aclocal=true
+
+for arg
+do
+  case $arg in
+  --no-aclocal )
+    do_aclocal=false
+    ;;
+  * )
+    echo >&2 "$me: don't know option '$arg'"
+    exit 1
+    ;;
+  esac
+done
+
 #
 # FIXME: Do we really want to do this automagically? (kintel 20020715)
 #
@@ -88,20 +103,24 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 
 # **************************************************************************
 
-MACRODIR=$SIMACROSDIR/cfg/m4
-echo "Running aclocal -I $MACRODIR (generating $cwd/aclocal.m4)..."
-rm -f aclocal.m4.old
-test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
-aclocal -I $MACRODIR
-if test $? -ne 0; then exit 1; fi
-if test -f aclocal.m4.old; then
-  if cmp -s aclocal.m4 aclocal.m4.old; then
-    echo "aclocal: aclocal.m4 is unchanged"
-    rm -f aclocal.m4
-    mv aclocal.m4.old aclocal.m4
-  else
-    rm -f aclocal.m4.old
+if $do_aclocal; then
+  MACRODIR=$SIMACROSDIR/cfg/m4
+  echo "Running aclocal -I $MACRODIR (generating $cwd/aclocal.m4)..."
+  rm -f aclocal.m4.old
+  test -f aclocal.m4 && mv aclocal.m4 aclocal.m4.old
+  aclocal -I $MACRODIR
+  if test $? -ne 0; then exit 1; fi
+  if test -f aclocal.m4.old; then
+    if cmp -s aclocal.m4 aclocal.m4.old; then
+      echo "aclocal: aclocal.m4 is unchanged"
+      rm -f aclocal.m4
+      mv aclocal.m4.old aclocal.m4
+    else
+      rm -f aclocal.m4.old
+    fi
   fi
+else
+  echo "$me: skipping aclocal..."
 fi
 
 CONFIGURESCRIPT=configure.in

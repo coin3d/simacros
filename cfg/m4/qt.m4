@@ -189,12 +189,19 @@ upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
       if test x"$sim_ac_want_x11" = xno; then   
-      # Qt/X11 needs X11, which you need to enable by --enable-darwin-x11
+      # Using Qt/X11 but option --enable-darwin-x11 not given
       AC_TRY_LINK([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
                    #error blah!
                    #endif],[],
-                  [SIM_AC_ERROR([x11-qt-on-mac])])
+                  [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
+      else 
+      # --enable-darwin-x11 specified but attempting Qt/Mac linkage
+      AC_TRY_LINK([#include <qapplication.h>],
+                  [#if defined(__APPLE__) && defined(Q_WS_MAC)
+                   #error blah!
+                   #endif],[],
+                  [SIM_AC_ERROR([mac-qt-but-x11-requested])])
       fi
       ;;
     esac

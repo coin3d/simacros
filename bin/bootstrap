@@ -31,7 +31,8 @@ cd $cwd
 # trap 'echo "Failed";' 1
 
 AUTOCONF_VER=2.5[023456789]
-AUTOMAKE_VER=1.7.5
+# thammer changed this from 1.7.5 to 1.7.6
+AUTOMAKE_VER=1.7.6
 LIBTOOL_VER=1.5
 GETTEXT_VER=0.10
 
@@ -227,7 +228,9 @@ echo "Syncing common files with simacros..."
 # These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
          cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
-         doc/errors.txt cfg/gendsp.sh
+         doc/errors.txt cfg/gendsp.sh cfg/gendspex.sh \
+         cfg/workspace_template_vc6.txt cfg/project_template_main_vc6.txt \
+         cfg/project_template_source_vc6.txt
 do
   src=$SIMACROSDIR/$i
   dst=$cwd/cfg/`basename $i`

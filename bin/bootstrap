@@ -6,6 +6,10 @@
 
 # Author: Morten Eriksen, <mortene@sim.no>.
 
+PATH="/usr/local/bin:$PATH"
+export PATH
+# ... where the patched autotools of correct version lie
+
 SIMACROSDIR=`dirname $0`/..
 
 wd=`echo "$0" | sed 's,[^\/]*$,,g'`;

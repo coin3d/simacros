@@ -1,1 +1,1 @@
-bin_SCRIPTS = bootstrap wrapmsvc.exe
+bin_SCRIPTS = bootstrap

@@ -1,16 +1,21 @@
 # SIM_AC_DYNLIB_EXT
 # --------------------------------------------
 # Find out what the shared library suffix is on this platform.
-# (Consider this a hack -- AFAIK, the "shrext" variable from Libtool
-# is undocumented and not guaranteed to stick around forever.)
+#
+# (Consider this a hack -- the "shrext_cmds" variable from Libtool
+# is undocumented and not guaranteed to stick around forever. We've
+# already had to change this once (it used to be called "shrext")).
 #
 # Sets the sim_ac_shlibext variable to the extension name.
 
 AC_DEFUN([SIM_AC_DYNLIB_EXT],
 [
 AC_MSG_CHECKING([for shared library suffix])
-eval "sim_ac_shlibext=$shrext"
+eval "sim_ac_shlibext=$shrext_cmds"
 AC_MSG_RESULT($sim_ac_shlibext)
+if test x"$sim_ac_shlibext" = x""; then
+  AC_MSG_WARN([Could not figure out library suffix! (Has there been a change to the Libtool version used?)])
+fi
 ])
 
 

@@ -64,6 +64,8 @@
 // wrapper itself.
 static bool wrapdbg = false;
 
+static int major = 1;
+static int minor = 1;
 
 static void
 errmsg_win32(BOOL fatal, const char * msg)
@@ -649,7 +651,9 @@ main(int argc, char ** argv)
     }
 
     // Just pass along object files to the linker process.
-    else if (suffixmatch(arg, ".obj") || suffixmatch(arg, ".o")) {
+    else if (suffixmatch(arg, ".obj") ||
+             suffixmatch(arg, ".o") ||
+             suffixmatch(arg, ".res") ) { // resource files are linked like obj
       compiler.addFileObj(winpath(arg));
       linker.addFileObj(winpath(arg));
     }

@@ -39,7 +39,7 @@ cd $cwd
 # trap 'echo "Failed";' 1
 
 AUTOCONF_VER=2.5[023456789]
-AUTOMAKE_VER=1.7.5
+AUTOMAKE_VER=1.[789]
 LIBTOOL_VER=1.5
 GETTEXT_VER=0.10
 
@@ -172,9 +172,10 @@ then
 You must have gettextize version $GETTEXT_VER installed to
 generate gettext support files.
 END
-    exit 1
+    # exit 1
   fi
 
+  if false; then
   echo "Running gettextize..."
   ( (
     bakdir=intl-bak.$$
@@ -200,6 +201,7 @@ END
     grep -v 'progtest.m4 from$' | \
     grep -v '^the directory ' \
   ) 3>&1 1>&2 2>&3 || exit 1
+  fi
 fi
 
 echo "Running autoheader (generating config.h.in)..."

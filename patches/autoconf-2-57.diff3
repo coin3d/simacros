@@ -4,10 +4,18 @@ parsed, causing config.status to hang.  Another MKS weirdness (sh-bug).
   Lars J
 
 --- lib/autoconf/status.m4.orig	Thu Jun 12 15:46:43 2003
-+++ lib/autoconf/status.m4	Thu Jun 12 15:47:18 2003
++++ lib/autoconf/status.m4	Fri Jun 13 16:05:01 2003
 @@ -502,6 +502,7 @@
  
  for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
+   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
++  true # MKS oddity
+   case $ac_file in
+   - | *:- | *:-:* ) # input from stdin
+         cat >$tmp/stdin
+@@ -933,6 +934,7 @@
+ cat >>$CONFIG_STATUS <<\_ACEOF
+ for ac_file in : $CONFIG_FILES; do test "x$ac_file" = x: && continue
    # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
 +  true # MKS oddity
    case $ac_file in

@@ -1,9 +1,12 @@
-This patch has been submitted upstream to <bug-libtool@gnu.org>...
+Chunk 1 of this patch has been submitted upstream to <bug-libtool@gnu.org>...
+Chunk 2 takes care of some sed under MKS problem.  The original substitution
+failed to do anything.  The real cause of the problem might be sh-quoting
+related...
 
   Lars J
 
 --- libtool.m4.orig	Mon Jun  2 16:31:12 2003
-+++ libtool.m4	Mon Jun  2 16:32:07 2003
++++ libtool.m4	Thu Jun 19 12:01:12 2003
 @@ -347,7 +347,7 @@
    lt_save_ifs="$IFS"; IFS=$PATH_SEPARATOR
    for dir in $PATH /usr/ucb; do
@@ -13,3 +16,12 @@ This patch has been submitted upstream to <bug-libtool@gnu.org>...
         test "X`($dir/echo '\t') 2>/dev/null`" = 'X\t' &&
         echo_testing_string=`($dir/echo "$echo_test_string") 2>/dev/null` &&
         test "X$echo_testing_string" = "X$echo_test_string"; then
+@@ -1617,7 +1617,7 @@
+ 
+   # Extract list of available tagged configurations in $ofile.
+   # Note that this assumes the entire list is on one line.
+-  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/available_tags=\(.*$\)/\1/' -e 's/\"//g'`
++  available_tags=`grep "^available_tags=" "${ofile}" | $SED -e 's/\"//g' -e 's/^available_tags= *//'`
+ 
+   lt_save_ifs="$IFS"; IFS="${IFS}$PATH_SEPARATOR,"
+   for tagname in $tagnames; do

@@ -587,3 +587,25 @@ if $sim_cv_def_qt_keypad; then
             [Define this if Qt::Keypad is available])
 fi
 ]) # SIM_AC_QT_KEYPAD_DEFINE
+
+
+# SIM_AC_QWIDGET_HASSETWINDOWSTATE
+# --------------------------------
+# QWidget->setWindowState() was added around Qt 3.3
+
+AC_DEFUN([SIM_AC_QWIDGET_HASSETWINDOWSTATE], [
+AC_CACHE_CHECK(
+  [whether QWidget::setWindowState() exists],
+  sim_cv_exists_qwidget_setwindowstate,
+
+  [AC_TRY_LINK([#include <qapplication.h>],
+               [QWidget * w = NULL; w->setWindowState(0);],
+               [sim_cv_exists_qwidget_setwindowstate=true],
+               [sim_cv_exists_qwidget_setwindowstate=false])])
+
+if $sim_cv_exists_qwidget_setwindowstate; then
+  AC_DEFINE([HAVE_QWIDGET_SETWINDOWSTATE], 1,
+            [Define this if QWidget::setWindowState() is available])
+fi
+]) # SIM_AC_QWIDGET_HASSETWINDOWSTATE
+

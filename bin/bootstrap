@@ -86,6 +86,8 @@ ${DIE=false} && echo "" && echo "Aborted." && exit 1
 # **************************************************************************
 
 echo "Copying simacros files ..."
+
+# These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
          cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
          doc/errors.txt cfg/gendsp.sh
@@ -95,6 +97,20 @@ do
   if ! cmp -s $src $dst; then
     echo "cp $src $dst"
     cp $src $dst
+  fi
+done
+
+# Then the files that are only part of some projects.
+for i in cfg/m4/simage.m4 cfg/m4/coin.m4 \
+         cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/sogtk.m4 cfg/m4/soqt.m4
+do
+  src=$SIMACROSDIR/$i
+  dst=$cwd/cfg/`basename $i`
+  if test -e $dst; then
+    if ! cmp -s $src $dst; then
+      echo "cp $src $dst"
+      cp $src $dst
+    fi
   fi
 done
 

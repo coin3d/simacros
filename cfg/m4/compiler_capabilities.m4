@@ -38,7 +38,7 @@ AC_LANG_PUSH(C++)
 
 AC_CACHE_CHECK(
   [if the C++ compiler environment is ok],
-  sim_cv_c_compiler_env_fubar,
+  sim_cv_c_compiler_env_ok,
   [AC_TRY_RUN([
 // Just any old C++ source code. It might be useful
 // to try to add in more standard C++ features that
@@ -57,19 +57,21 @@ int
 main(void)
 {
   myclass proj;
-  (void)printf(stdout, "%f\n", proj.value);
+  proj.value = 42;
   return 0;
 }
 ],
-  [sim_cv_c_compiler_env_fubar=false],
-  [sim_cv_c_compiler_env_fubar=true],
-  [sim_cv_c_compiler_env_fubar=false
+  [sim_cv_c_compiler_env_ok=true],
+  [sim_cv_c_compiler_env_ok=false],
+  [sim_cv_c_compiler_env_ok=true
    AC_MSG_WARN([can't check for fully working C++ environment when cross-compiling, assuming it's ok])])
 ])
 
 AC_LANG_POP
 
-if $sim_cv_c_compiler_env_fubar; then
+if $sim_cv_c_compiler_env_ok; then
+  :
+else
   SIM_AC_ERROR(c--fubarenvironment)
 fi
 ])

@@ -31,8 +31,7 @@ cd $cwd
 # trap 'echo "Failed";' 1
 
 AUTOCONF_VER=2.5[023456789]
-# thammer changed this from 1.7.5 to 1.7.6
-AUTOMAKE_VER=1.7.6
+AUTOMAKE_VER=1.7.[56]
 LIBTOOL_VER=1.5
 GETTEXT_VER=0.10
 

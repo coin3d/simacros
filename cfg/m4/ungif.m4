@@ -18,7 +18,7 @@
 # **************************************************************************
 
 AC_DEFUN([SIM_AC_HAVE_LIBUNGIF_IFELSE],
-[AC_REQUIRE([AC_PATH_X])
+[AC_REQUIRE([SIM_AC_CHECK_X11])
 : ${sim_ac_have_libungif=false}
 AC_MSG_CHECKING([for libungif])
 AC_ARG_WITH(

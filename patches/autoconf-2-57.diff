@@ -1,0 +1,19 @@
+Without this patch for Autoconf 2.57, the generation of debian
+package files outputs a series of error messages about trying to
+cd into the non-existent $srcdir/$distdir/debian directory.
+
+  Lars J
+
+--- lib/autoconf/status.m4.orig	Tue Jun 10 17:19:21 2003
++++ lib/autoconf/status.m4	Tue Jun 10 17:20:22 2003
+@@ -164,8 +164,8 @@
+ # absolute.
+ ac_abs_builddir=`cd $1 && cd $ac_builddir && pwd`
+ ac_abs_top_builddir=`cd $1 && cd ${ac_top_builddir}. && pwd`
+-ac_abs_srcdir=`cd $1 && cd $ac_srcdir && pwd`
+-ac_abs_top_srcdir=`cd $1 && cd $ac_top_srcdir && pwd`
++ac_abs_srcdir=`test -d $1/$ac_srcdir && cd $1 && cd $ac_srcdir && pwd`
++ac_abs_top_srcdir=`test -d $1/$ac_top_srcdir && cd $1 && cd $ac_top_srcdir && pwd`
+ ])# _AC_SRCPATHS
+ 
+ 

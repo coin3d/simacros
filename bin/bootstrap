@@ -7,6 +7,10 @@
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 PATH="/usr/local/bin:$PATH"
+# add the path containing the autotools on the bootstrap server
+if test -d /simdev/bootstrap/bin; then
+  PATH="/simdev/bootstrap/bin:$PATH"
+fi
 export PATH
 # ... where the patched autotools of correct version lie
 

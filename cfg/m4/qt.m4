@@ -190,14 +190,14 @@ upgrade. (See $srcdir/README.MAC for details.)])
 
       if test x$sim_ac_enable_darwin_x11 = xfalse; then
       # Using Qt/X11 but option --enable-darwin-x11 not given
-      AC_TRY_LINK([#include <qapplication.h>],
+      AC_TRY_COMPILE([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_X11)
                    #error blah!
                    #endif],[],
                   [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
       else 
       # --enable-darwin-x11 specified but attempting Qt/Mac linkage
-      AC_TRY_LINK([#include <qapplication.h>],
+      AC_TRY_COMPILE([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_MAC)
                    #error blah!
                    #endif],[],

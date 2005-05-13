@@ -779,12 +779,15 @@ sim_ac_agl_ldflags="-Wl,-framework,ApplicationServices -Wl,-framework,AGL"
 
 LDFLAGS="$LDFLAGS $sim_ac_agl_ldflags"
 
+# see comment in Coin/src/glue/gl_agl.c: regarding __CARBONSOUND__ define 
+
 AC_CACHE_CHECK(
   [whether AGL is on the system],
   sim_cv_have_agl,
   AC_TRY_LINK(
     [#include <AGL/agl.h>
-#include <Carbon/Carbon.h>],
+     #define __CARBONSOUND__ 
+     #include <Carbon/Carbon.h>],
     [aglGetCurrentContext();],
     [sim_cv_have_agl=true],
     [sim_cv_have_agl=false]))

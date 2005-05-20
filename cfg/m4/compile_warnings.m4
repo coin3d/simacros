@@ -165,6 +165,10 @@ SIM_AC_COMPILE_DEBUG([
       # warning level 3
       SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
       SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
+
+      # 64-bit porting warnings
+      SIM_AC_CC_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /Wp64"])
+      SIM_AC_CXX_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /Wp64"])
       ;;
     esac
   fi

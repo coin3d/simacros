@@ -19,6 +19,8 @@
 #
 
 AC_DEFUN([SIM_AC_COMPILE_DEBUG], [
+AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
+
 AC_ARG_ENABLE(
   [debug],
   AC_HELP_STRING([--enable-debug], [compile in debug mode [[default=yes]]]),
@@ -32,6 +34,19 @@ AC_ARG_ENABLE(
 
 if $enable_debug; then
   DSUFFIX=d
+  if $sim_ac_simian; then
+    case $CXX in
+    *wrapmsvc* )
+      # uninitialized checks
+      SIM_AC_CC_COMPILER_OPTION([/RTCu], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCu"])
+      SIM_AC_CXX_COMPILER_OPTION([/RTCu, [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCu"])
+      # stack frame checks
+      SIM_AC_CC_COMPILER_OPTION([/RTCs], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /RTCs"])
+      SIM_AC_CXX_COMPILER_OPTION([/RTCs, [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /RTCs"])
+      ;;
+    esac
+  fi
+
   ifelse([$1], , :, [$1])
 else
   DSUFFIX=

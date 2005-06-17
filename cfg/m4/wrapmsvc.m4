@@ -21,6 +21,17 @@ AC_ARG_ENABLE([msvc],
 ])
 
 # **************************************************************************
+
+AC_DEFUN([SIM_AC_MSVC_VERSION], [
+AC_MSG_CHECKING([Visual Studio C++ version])
+AC_TRY_COMPILE([],
+  [long long number = 0;],
+  [sim_ac_msvc_version=7]
+  [sim_ac_msvc_version=6])
+AC_MSG_RESULT($sim_ac_msvc_version)
+])
+
+# **************************************************************************
 # Note: the SIM_AC_SETUP_MSVC_IFELSE macro has been OBSOLETED and
 # replaced by the one below.
 #
@@ -47,6 +58,7 @@ if $sim_ac_try_msvc; then
       export CC CXX
       BUILD_WITH_MSVC=true
       AC_MSG_RESULT([working])
+      # SIM_AC_MSVC_VERSION
     else
       case $host in
       *-cygwin)

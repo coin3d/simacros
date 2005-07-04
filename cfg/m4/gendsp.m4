@@ -1,4 +1,4 @@
-# **************************************************************************
+ **************************************************************************
 # gendsp.m4
 #
 # macros:
@@ -31,6 +31,7 @@ AC_REQUIRE([SIM_AC_MSVC_DSP_ENABLE_OPTION])
 $1_DSP_LIBDIRS=
 $1_DSP_LIBS=
 $1_DSP_INCS=
+$1_LIB_DSP_DEFS=
 $1_DSP_DEFS=
 
 if $sim_ac_make_dsp; then
@@ -81,6 +82,15 @@ if $sim_ac_make_dsp; then
       else
         $1_DSP_DEFS="[$]$1_DSP_DEFS /D \"$define\""
       fi
+      if echo $define | grep _MAKE_DLL; then
+        :
+      else
+        if test x"[$]$1_DSP_DEFS" = x""; then
+          $1_LIB_DSP_DEFS="/D \"$define\""
+        else
+          $1_LIB_DSP_DEFS="[$]$1_LIB_DSP_DEFS /D \"$define\""
+        fi
+      fi
       ;;
     esac
   done
@@ -106,5 +116,6 @@ fi
 AC_SUBST([$1_DSP_LIBS])
 AC_SUBST([$1_DSP_INCS])
 AC_SUBST([$1_DSP_DEFS])
+AC_SUBST([$1_LIB_DSP_DEFS])
 ])
 

@@ -508,7 +508,7 @@ if test x"$sourcefile" = x""; then :; else
       echo "# End Custom Build" >>"$studiofile"
       echo "" >>"$studiofile"
   
-      echo '!ELSEIF  "$(CFG)" == "'${library}@${LIBRARY}_MAJOR_VERSION@' - Win32 LB (Debug)"' >>"$studiofile"
+      echo '!ELSEIF  "$(CFG)" == "'${library}@${LIBRARY}_MAJOR_VERSION@' - Win32 LIB (Debug)"' >>"$studiofile"
       echo "" >>"$studiofile"
       echo "# PROP IgnoreDefaultTool 1" >>"$studiofile"
       echo "#Begin Custom Build - moc'ing \$(InputPath)" >>"$studiofile"

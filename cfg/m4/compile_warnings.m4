@@ -154,7 +154,6 @@ SIM_AC_COMPILE_DEBUG([
   else
     case $CXX in
     *wrapmsvc* )
-      AC_REQUIRE([SIM_AC_MSVC_VERSION])
       if $sim_ac_simian; then
         if $sim_ac_source_release; then :; else
           # break build on warnings, except for in official source code releases
@@ -167,7 +166,7 @@ SIM_AC_COMPILE_DEBUG([
       SIM_AC_CC_COMPILER_OPTION([/W3], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /W3"])
       SIM_AC_CXX_COMPILER_OPTION([/W3], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /W3"])
 
-      if test x$sim_ac_msvc_version = x7; then
+      if test ${sim_ac_msvc_version-0} -gt 6; then
         # 64-bit porting warnings
         SIM_AC_CC_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CFLAGS="$sim_ac_compiler_CFLAGS /Wp64"])
         SIM_AC_CXX_COMPILER_OPTION([/Wp64], [sim_ac_compiler_CXXFLAGS="$sim_ac_compiler_CXXFLAGS /Wp64"])

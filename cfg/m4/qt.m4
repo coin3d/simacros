@@ -128,6 +128,21 @@ if $sim_ac_with_qt; then
 
   sim_ac_qt_libs=UNRESOLVED
 
+  # Check for Mac OS framework installation
+  if test -z "$QTDIR"; then
+    sim_ac_qt_framework_dir=/Library/Frameworks
+  else
+    sim_ac_qt_framework_dir=$sim_ac_qtdir/lib
+  fi
+
+  SIM_AC_HAVE_QT_FRAMEWORK
+
+  if $sim_ac_have_qt_framework; then 
+    sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
+    sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore"
+
+  else
+
   sim_ac_qglobal=false
   SIM_AC_CHECK_HEADER_SILENT([qglobal.h],
     [sim_ac_qglobal=true],
@@ -377,6 +392,8 @@ recommend you to upgrade.])
   else # sim_ac_qglobal = false
     AC_MSG_WARN([header file qglobal.h not found, can not compile Qt code])
   fi
+
+  fi # sim_ac_have_qt_framework
 
   # We should only *test* availability, not mutate the LIBS/CPPFLAGS
   # variables ourselves inside this macro. 20041021 larsa
@@ -689,4 +706,41 @@ if $sim_cv_exists_qlineedit_setinputmask; then
             [Define this if QLineEdit::setInputMask() is available])
 fi
 ]) # SIM_AC_QLINEEDIT_HASSETINPUTMASK
+
+
+
+# SIM_AC_HAVE_QT_FAMEWORK
+# ----------------------
+#
+# Determine whether Qt is installed as a Mac OS X framework.  
+#
+# Uses the variable $sim_ac_qt_framework_dir which should either 
+# point to /Library/Frameworks or $QTDIR/lib. 
+
+# Sets sim_ac_have_qt_framework to true if Qt is installed as 
+# a framework, and to false otherwise. Note that on non-Darwin
+# platforms we don't even bother checking for a framework install,
+# since that would not make sense anyway.
+#
+# Author: Karin Kosina, <kyrah@sim.no>.
+
+AC_DEFUN([SIM_AC_HAVE_QT_FRAMEWORK], [
+case $host_os in
+  darwin*)
+    sim_ac_save_ldflags_fw=$LDFLAGS 
+    LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
+    AC_CACHE_CHECK(
+      [whether Qt is installed as a framework],
+      sim_ac_have_qt_framework,
+      [AC_TRY_LINK([#include <QtCore/qglobal.h>],
+               [],
+               [sim_ac_have_qt_framework=true],
+               [sim_ac_have_qt_framework=false])])
+      LDFLAGS=$sim_ac_save_ldflags_fw
+    ;;
+  *)
+    sim_ac_have_qt_framework=false
+    ;;
+esac
+])
 

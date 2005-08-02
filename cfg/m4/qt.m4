@@ -709,34 +709,42 @@ fi
 
 
 
-# SIM_AC_HAVE_QT_FAMEWORK
+# SIM_AC_HAVE_QT_FRAMEWORK
 # ----------------------
 #
 # Determine whether Qt is installed as a Mac OS X framework.  
 #
 # Uses the variable $sim_ac_qt_framework_dir which should either 
 # point to /Library/Frameworks or $QTDIR/lib. 
-
+#
 # Sets sim_ac_have_qt_framework to true if Qt is installed as 
-# a framework, and to false otherwise. Note that on non-Darwin
-# platforms we don't even bother checking for a framework install,
-# since that would not make sense anyway.
+# a framework, and to false otherwise. 
 #
 # Author: Karin Kosina, <kyrah@sim.no>.
 
 AC_DEFUN([SIM_AC_HAVE_QT_FRAMEWORK], [
 case $host_os in
   darwin*)
-    sim_ac_save_ldflags_fw=$LDFLAGS 
-    LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
-    AC_CACHE_CHECK(
-      [whether Qt is installed as a framework],
-      sim_ac_have_qt_framework,
-      [AC_TRY_LINK([#include <QtCore/qglobal.h>],
-               [],
-               [sim_ac_have_qt_framework=true],
-               [sim_ac_have_qt_framework=false])])
-      LDFLAGS=$sim_ac_save_ldflags_fw
+    # First check if framework exists in the specified location, then
+    # try to actually link against the framework. This precaution is
+    # needed to catch the case where Qt-4 is installed in the default
+    # location /Library/Frameworks, but the user wants to override it
+    # by setting QTDIR to point to a non-framework install.
+    if test -d $sim_ac_qt_framework_dir/QtCore.framework; then
+      sim_ac_save_ldflags_fw=$LDFLAGS 
+      LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
+      AC_CACHE_CHECK(
+        [whether Qt is installed as a framework],
+        sim_ac_have_qt_framework,
+        [AC_TRY_LINK([#include <QtCore/qglobal.h>],
+                 [],
+                 [sim_ac_have_qt_framework=true],
+                 [sim_ac_have_qt_framework=false])
+        ])
+        LDFLAGS=$sim_ac_save_ldflags_fw
+    else 
+      sim_ac_have_qt_framework=false
+    fi 
     ;;
   *)
     sim_ac_have_qt_framework=false

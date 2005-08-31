@@ -59,7 +59,10 @@ if test x"$with_pthread" != xno; then
   for sim_ac_pthreads_libcheck in "-lpthread" "-pthread"; do
     if $sim_ac_pthread_avail; then :; else
       LIBS="$sim_ac_pthreads_libcheck $sim_ac_save_libs"
-      AC_TRY_LINK([#include <pthread.h>],
+      AC_TRY_LINK([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                   [(void)pthread_create(0L, 0L, 0L, 0L);],
                   [sim_ac_pthread_avail=true
                    sim_ac_pthread_libs="$sim_ac_pthreads_libcheck"
@@ -77,7 +80,10 @@ if test x"$with_pthread" != xno; then
     AC_CACHE_CHECK(
       [the struct timespec resolution],
       sim_cv_lib_pthread_timespec_resolution,
-      [AC_TRY_COMPILE([#include <pthread.h>],
+      [AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#include <pthread.h>],
                       [struct timespec timeout;
                        timeout.tv_nsec = 0;],
                       [sim_cv_lib_pthread_timespec_resolution=nsecs],

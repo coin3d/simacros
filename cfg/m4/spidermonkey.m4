@@ -13,7 +13,7 @@ if test x"$with_spidermonkey" != x"no"; then
 
   if $BUILD_WITH_MSVC; then      
     if test x"$with_spidermonkey" != xyes && test x"$with_spidermonkey" != x""; then
-      sim_ac_spidermonkey_cppflags="-I${with_spidermonkey} -DXP_WIN"
+      sim_ac_spidermonkey_cppflags="-I${with_spidermonkey} -DXP_WIN -DWIN32"
     fi
   else
     if test x"$with_spidermonkey" != xyes && test x"$with_spidermonkey" != x""; then

@@ -24,7 +24,7 @@ if test x"$with_spidermonkey" != x"no"; then
   fi
 
   if $BUILD_WITH_MSVC; then 
-    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DXP_WIN"
+    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DXP_WIN -DWIN32"
   else
     CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DCROSS_COMPILE"
   fi
@@ -146,7 +146,7 @@ true)
 
 
   if $BUILD_WITH_MSVC; then 
-    CPPFLAGS="$CPPFLAGS -DXP_WIN"
+    CPPFLAGS="$CPPFLAGS -DXP_WIN -DWIN32"
   else
     CPPFLAGS="$CPPFLAGS -DCROSS_COMPILE"
   fi

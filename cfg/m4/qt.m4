@@ -80,6 +80,42 @@ fi
 
 ############################################################################
 # Usage:
+#  SIM_AC_QT_VERSION
+#
+# Find version number of the Qt library. sim_ac_qt_version will contain
+# the full version number string, and sim_ac_qt_major_version will contain
+# only the major version number.
+
+AC_DEFUN([SIM_AC_QT_VERSION], [
+
+AC_MSG_CHECKING([version of Qt library])
+
+cat > conftest.c << EOF
+#include <qglobal.h>
+int VerQt = QT_VERSION;
+EOF
+
+# The " *"-parts of the last sed-expression on the next line are necessary
+# because at least the Solaris/CC preprocessor adds extra spaces before and
+# after the trailing semicolon.
+sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+
+case $sim_ac_qt_version in
+0x* )
+  sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
+  ;;
+* )
+  # nada
+  ;;
+esac
+sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
+
+rm -f conftest.c
+AC_MSG_RESULT($sim_ac_qt_version)
+])
+
+############################################################################
+# Usage:
 #  SIM_AC_CHECK_QT([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 #  Try to find the Qt development system. If it is found, these
@@ -190,30 +226,7 @@ if $sim_ac_with_qt; then
 
   if $sim_ac_qglobal; then
 
-    # Find version of the Qt library (MSWindows .dll is named with the
-    # version number.)
-    AC_MSG_CHECKING([version of Qt library])
-    cat > conftest.c << EOF
-#include <qglobal.h>
-int VerQt = QT_VERSION;
-EOF
-    # The " *"-parts of the last sed-expression on the next line are necessary
-    # because at least the Solaris/CC preprocessor adds extra spaces before and
-    # after the trailing semicolon.
-    sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
-
-    case $sim_ac_qt_version in
-    0x* )
-      sim_ac_qt_version=`echo $sim_ac_qt_version | sed -e 's/^0x.\(.\).\(.\).\(.\)/\1\2\3/;'`
-      ;;
-    * )
-      # nada
-      ;;
-    esac
-    sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
-
-    rm -f conftest.c
-    AC_MSG_RESULT($sim_ac_qt_version)
+    SIM_AC_QT_VERSION
 
     if test $sim_ac_qt_version -lt 200; then
       SIM_AC_ERROR([too-old-qt])

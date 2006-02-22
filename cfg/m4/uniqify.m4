@@ -24,13 +24,18 @@ for sim_ac_item in $2; do
   if test x"$sim_ac_uniqued_list" = x; then
     sim_ac_uniqued_list="$sim_ac_item"
   else
-    sim_ac_unique=true
-    for sim_ac_uniq in $sim_ac_uniqued_list; do
-      eval sim_ac_eval_uniq="$sim_ac_uniq"
-      eval sim_ac_eval_uniq="$sim_ac_eval_uniq"
-      test x"$sim_ac_eval_item" = x"$sim_ac_eval_uniq" && sim_ac_unique=false
-    done
-    $sim_ac_unique && sim_ac_uniqued_list="$sim_ac_uniqued_list $sim_ac_item"
+    # Don't filter out multiple "-arch" options - needed for UB
+    if test x"$sim_ac_item" = x"-arch"; then
+      sim_ac_uniqued_list="$sim_ac_uniqued_list $sim_ac_item"
+    else 
+      sim_ac_unique=true
+      for sim_ac_uniq in $sim_ac_uniqued_list; do
+        eval sim_ac_eval_uniq="$sim_ac_uniq"
+        eval sim_ac_eval_uniq="$sim_ac_eval_uniq"
+        test x"$sim_ac_eval_item" = x"$sim_ac_eval_uniq" && sim_ac_unique=false
+      done
+      $sim_ac_unique && sim_ac_uniqued_list="$sim_ac_uniqued_list $sim_ac_item"
+    fi 
   fi
 done
 $1=$sim_ac_uniqued_list

@@ -29,10 +29,17 @@ AC_ARG_WITH(
 sim_ac_libsndfile_avail=no
 
 if test x"$with_libsndfile" != xno; then
-  if test x"$with_libsndfile" != xyes; then
-    sim_ac_libsndfile_cppflags="-I${with_libsndfile}/src"
-    sim_ac_libsndfile_ldflags="-L${with_libsndfile}"
-  fi
+  if test -d "${with_libsndfile}/include"; then
+    sim_ac_libsndfile_cppflags="-I${with_libsndfile}/include"
+    sim_ac_libsndfile_ldflags="-L${with_libsndfile}/lib"
+  else 
+    # According to thammer, this is the  directory layout in older 
+    # binary distributions of libsndfile for Windows. 20060307 kyrah
+    if test x"$with_libsndfile" != xyes; then
+      sim_ac_libsndfile_cppflags="-I${with_libsndfile}/src"
+      sim_ac_libsndfile_ldflags="-L${with_libsndfile}"
+    fi
+  fi 
 
   sim_ac_save_cppflags=$CPPFLAGS
   sim_ac_save_ldflags=$LDFLAGS

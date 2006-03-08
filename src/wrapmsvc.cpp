@@ -341,14 +341,51 @@ struct Tool {
   {
     // Store the original $LIB, as we might need to set it up
     // repeatedly from scratch later on.
-    int neededsize = GetEnvironmentVariable("LIB", NULL, 0);
-    if (neededsize > 1) {
-      char * tmpbuf = new char[neededsize + 1];
-      int resultsize = GetEnvironmentVariable("LIB", tmpbuf, neededsize);
-      assert(resultsize == neededsize-1);
-      Tool::original_LIB = new std::string(tmpbuf);
-      delete tmpbuf;
+
+    // Fetch envvar the Windows way
+    int win32_neededsize = GetEnvironmentVariable("LIB", NULL, 0);
+    char * win32_libvar = NULL;
+    if (win32_neededsize > 1) {
+      win32_libvar = new char[win32_neededsize + 1];
+      int resultsize = GetEnvironmentVariable("LIB", win32_libvar, win32_neededsize);
+      assert(resultsize == win32_neededsize-1);
     }
+
+    // Fetch envvar the POSIX way
+    const char * posix_libvar = getenv("LIB");
+
+    if ((win32_neededsize) <= 1 && (posix_libvar != NULL)) {
+      Tool::original_LIB = new std::string(posix_libvar);
+    }
+    else if ((win32_neededsize > 1) && (posix_libvar == NULL)) {     
+      Tool::original_LIB = new std::string(win32_libvar);
+    }
+    else {
+      // Both the win32 and the posix GetEnv function returned a var. 
+      if (strcmp(win32_libvar, posix_libvar) != 0) {
+        fprintf(stderr, 
+                "WARNING: The Win32-call 'GetEnvironmentVar(\"LIB\")' "
+                "does not return the same result as the POSIX 'getenv(\"LIB\")' call! "
+                "The $LIB variable cannot be set correctly.");
+      }
+      else {
+        // Choose the win32 result as default.
+        Tool::original_LIB = new std::string(win32_libvar);        
+      }
+    }
+
+    // Print out debug info.
+    if (wrapdbg) { 
+      printf("Fetching the $LIB envvar;\n"
+             " getenv(\"LIB\") => '%s'\n"
+             " GetEnvironmentVariable(\"LIB\"...) => neededsize==%d, str=='%s'\n", 
+             (posix_libvar==NULL) ? "NULL" : posix_libvar,
+             win32_neededsize, (win32_neededsize > 1) ? win32_libvar : "NULL");
+    }
+
+    if (win32_libvar)
+      delete win32_libvar;
+
   }
 
   virtual const char * getToolName(void) = 0;
@@ -431,6 +468,14 @@ struct Tool {
     if (wrapdbg) { (void)fprintf(stdout, "LIB=='%s'\n", new_LIB.c_str()); }
     BOOL r = SetEnvironmentVariable("LIB", new_LIB.c_str());
     assert(r && "SetEnvironmentVariable() failed -- investigate");
+
+    char * inclVar = getenv( "INCLUDE" );
+    if( inclVar != NULL ) {
+      if (wrapdbg) {
+        printf("Setting $INCLUDE according to 'getenv(\"INCLUDE\")'; '%s'\n", inclVar);
+      }
+      r = SetEnvironmentVariable("INCLUDE", inclVar );
+    }
 
     // All passthrough options -- that is, the MSVC++ style arguments
     // given that starts with a "/".
@@ -605,11 +650,22 @@ main(int argc, char ** argv)
     return retcode;
   }
 
+  // Check if the '--wrapdbg' parameter is specified before creating
+  // the 'Tool' object.
+  for (int i=1; i < argc; i++) {
+    std::string arg = argv[i];
+    if (match(arg, "--wrapdbg")) {
+      wrapdbg = true;
+    }
+    else if (match(arg, "--wrapversion")) {
+      (void)fprintf(stdout, "$Revision$ (post disk-crash)\n");
+      exit(0);
+    }
+  }
+  
   struct CompilerArgs compiler;
   struct LinkerArgs linker;
-
   struct Tool * tool = &compiler;
-
 
   /*** start of command-line parsing ************************************/
 
@@ -618,14 +674,10 @@ main(int argc, char ** argv)
     bool optarg = arg.at(0)=='-' || arg.at(0)=='/';
     bool forcompiler = (tool == &compiler);
 
+    
     if (match(arg, "--wrapdbg")) {
-      wrapdbg = true;
+      // Ignore (handled already).
     }
-    else if (match(arg, "--wrapversion")) {
-      (void)fprintf(stdout, "$Revision$ (post disk-crash)\n");
-      exit(0);
-    }
-
     // C srcfile?
     else if (suffixmatch(arg, ".c")) {
       tool = &compiler;

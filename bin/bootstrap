@@ -242,6 +242,8 @@ fi
 
 echo "Syncing common files with simacros..."
 
+mkdir -p cfg
+
 # These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
          cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \

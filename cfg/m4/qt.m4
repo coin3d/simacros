@@ -98,7 +98,7 @@ EOF
 # The " *"-parts of the last sed-expression on the next line are necessary
 # because at least the Solaris/CC preprocessor adds extra spaces before and
 # after the trailing semicolon.
-sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *; *$%%'`
+sim_ac_qt_version=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerQt' | sed 's%^int VerQt = %%' | sed 's% *;.*$%%'`
 
 case $sim_ac_qt_version in
 0x* )

@@ -243,20 +243,20 @@ known to contain some serious bugs on MacOS X. We strongly recommend you to
 upgrade. (See $srcdir/README.MAC for details.)])
       fi
 
-      if test x$sim_ac_enable_darwin_x11 = xfalse; then
-      # Using Qt/X11 but option --enable-darwin-x11 not given
-      AC_TRY_COMPILE([#include <qapplication.h>],
-                  [#if defined(__APPLE__) && defined(Q_WS_X11)
-                   #error blah!
-                   #endif],[],
-                  [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
-      else 
+      if $sim_ac_enable_darwin_x11; then
       # --enable-darwin-x11 specified but attempting Qt/Mac linkage
       AC_TRY_COMPILE([#include <qapplication.h>],
                   [#if defined(__APPLE__) && defined(Q_WS_MAC)
                    #error blah!
                    #endif],[],
                   [SIM_AC_ERROR([mac-qt-but-x11-requested])])
+      else 
+      # Using Qt/X11 but option --enable-darwin-x11 not given
+      AC_TRY_COMPILE([#include <qapplication.h>],
+                  [#if defined(__APPLE__) && defined(Q_WS_X11)
+                   #error blah!
+                   #endif],[],
+                  [SIM_AC_ERROR([x11-qt-but-no-x11-requested])])
       fi
       ;;
     esac

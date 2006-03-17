@@ -28,16 +28,17 @@ case $host_os in
                      [enable X11 on Darwin [[default=--disable-darwin-x11]]]),
       [case "${enableval}" in
         yes | true) sim_ac_enable_darwin_x11=true ;;
-        no | false) sim_ac_enable_darwin_x11=false ;;
+        no | false) sim_ac_enable_darwin_x11=false; no_x=yes ;;
         *) SIM_AC_ENABLE_ERROR([--enable-darwin-x11]) ;;
       esac],
-      [sim_ac_enable_darwin_x11=false])
+      [sim_ac_enable_darwin_x11=false; no_x=yes])
   ;;
 esac
 
 sim_ac_x11_avail=no
 
-if test x"$no_x" != xyes -o $sim_ac_enable_darwin_x11 ; then
+if test x"$no_x" != xyes; then
+
   #  *** DEBUG ***
   #  Keep this around, as it can be handy when testing on new systems.
   # echo "X_CFLAGS: $X_CFLAGS"

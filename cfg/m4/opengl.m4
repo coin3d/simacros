@@ -322,8 +322,8 @@ if test x"$with_opengl" != xno; then
   case $host_os in
   darwin*)
     AC_REQUIRE([SIM_AC_CHECK_X11])
-    if test x"$GCC" = x"yes" -a $sim_ac_enable_darwin_x11; then
-      # On Mac OS X, OpenGL is installed as part of the optional X11 SDK.
+    if $sim_ac_enable_darwin_x11; then
+      # Use X11-based GL instead of OpenGL.framework when building against X11
       sim_ac_gl_darwin_x11=/usr/X11R6
       if test -d $sim_ac_gl_darwin_x11; then
         sim_ac_ogl_cppflags=-I$sim_ac_gl_darwin_x11/include
@@ -336,8 +336,6 @@ if test x"$with_opengl" != xno; then
   esac
 
   if $sim_ac_use_framework_option; then
-    # hopefully, this is the default behavior and not needed. 20011005 larsa
-    # sim_ac_ogl_cppflags="-F/System/Library/Frameworks/OpenGL.framework/"
     sim_ac_ogl_ldflags="-Wl,-framework,OpenGL"
     sim_ac_ogl_lib=OpenGL
   fi

@@ -19,6 +19,7 @@ darwin*)
 esac
 ]) # SIM_AC_MAC_CPP_ADJUSTMENTS
 
+
 # **************************************************************************
 # This macro sets up the MAC_FRAMEWORK automake conditional, depending on
 # the host OS and whether $sim_ac_prefer_framework has been overridden or
@@ -42,3 +43,59 @@ else
 fi
 ]) # SIM_AC_MAC_FRAMEWORK
 
+
+############################################################################
+# Usage:
+#  SIM_AC_UNIVERSAL_BINARIES([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
+#
+#  Determine whether we should build Universal Binaries. If yes, these
+#  shell variables are set:
+#
+#    $sim_ac_enable_universal (true if we are building Universal Binaries)
+#    $sim_ac_universal_flags (extra flags needed for Universal Binaries)
+#  
+#  The CFLAGS and CXXFLAGS variables will also be modified accordingly.
+#
+#  Note that when building Universal Binaries, dependency tracking will 
+#  be turned off.
+#
+# Author: Karin Kosina <kyrah@sim.no>.
+
+AC_DEFUN([SIM_AC_UNIVERSAL_BINARIES], [
+
+sim_ac_enable_universal=false
+
+
+case $host_os in
+  darwin* ) 
+    AC_ARG_ENABLE(
+      [universal],
+      AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
+        case $enableval in
+          yes | true) sim_ac_enable_universal=true ;;
+          *) ;;
+        esac])
+
+    AC_MSG_CHECKING([whether we should build Universal Binaries])   
+    if $sim_ac_enable_universal; then
+      AC_MSG_RESULT([yes])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
+
+      # need to build against Universal Binary SDK on PPC
+      if test x"$host_cpu" = x"powerpc"; then
+        sim_ac_universal_sdk_flags="-isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+      fi
+
+      sim_ac_universal_flags="-arch i386 -arch ppc $sim_ac_universal_sdk_flags"
+      
+      CFLAGS="$sim_ac_universal_flags $CFLAGS"
+      CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
+
+      # disable dependency tracking since we can't use -MD when cross-compiling
+      enable_dependency_tracking=no
+    else
+      AC_MSG_RESULT([no])
+      SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [No (default)])
+    fi
+esac
+]) # SIM_AC_UNIVERSAL_BINARIES

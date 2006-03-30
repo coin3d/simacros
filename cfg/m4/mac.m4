@@ -59,6 +59,8 @@ fi
 #  Note that when building Universal Binaries, dependency tracking will 
 #  be turned off.
 #
+#  Important: This macro must be called _before_ AM_INIT_AUTOMAKE.
+#
 # Author: Karin Kosina <kyrah@sim.no>.
 
 AC_DEFUN([SIM_AC_UNIVERSAL_BINARIES], [

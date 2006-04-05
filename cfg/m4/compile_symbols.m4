@@ -27,8 +27,8 @@ AC_ARG_ENABLE(
 
 # weird seds to don't mangle options like -fno-gnu-linker and -fvolatile-global
 if test x"$enable_symbols" = x"no"; then
-  CFLAGS="`echo $CFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
-  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g //g' | sed 's/^-g //g' | sed 's/ -g$//g' | sed 's/^-g$//'`"
+  CFLAGS="`echo $CFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
+  CXXFLAGS="`echo $CXXFLAGS | sed 's/ -g / /g' | sed 's/^-g / /g' | sed 's/ -g$/ /g' | sed 's/^-g$/ /'`"
 fi
 ]) # SIM_AC_DEBUGSYMBOLS
 

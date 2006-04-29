@@ -261,6 +261,6 @@ if test -z "$sim_ac_member_type"; then
   $5
 else
   AC_MSG_RESULT([$sim_ac_member_type])
-  AC_DEFINE([$4], [$sim_ac_member_type], [The type $2::$3 is declared as.])
+  AC_DEFINE_UNQUOTED([$4], [$sim_ac_member_type], [The type $2::$3 is declared as.])
 fi
 ]) # SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER

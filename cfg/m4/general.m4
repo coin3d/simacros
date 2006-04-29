@@ -240,3 +240,27 @@ SIM_AC_HAVE_BYTESIZE_TYPES_IFELSE([
 ], [$1])
 ])# SIM_AC_DEFINE_BYTESIZE_TYPES
 
+#************************************************************************** 
+# SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER(includes, struct name, member name, variable, if-error)
+
+AC_DEFUN([SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER], [
+AC_MSG_CHECKING([type of $2::$3])
+cat > conftest.cpp << _ACEOF
+#include "confdefs.h"
+$1
+int main(int argc, char **argv) { return 0; }
+_ACEOF
+sim_ac_struct_contents="`$CXXCPP $CPPFLAGS conftest.cpp 2>/dev/null | sed -e '1,/struct[[ \t]]*$2/ d' | sed -e '/}/,\$ d'`"
+rm conftest.cpp
+# canonicalize contents:
+sim_ac_struct_contents="`echo { \$sim_ac_struct_contents }`"
+# extract type declaration type
+sim_ac_member_type="`echo $sim_ac_struct_contents | sed -e 's/^.*[[{\\;]] *\\([[^{\\;]]*\\) $3 *;.*/\\1/'`"
+if test -z "$sim_ac_member_type"; then
+  AC_MSG_RESULT([<unknown type>])
+  $5
+else
+  AC_MSG_RESULT([$sim_ac_member_type])
+  AC_DEFINE([$4], [$sim_ac_member_type], [The type $2::$3 is declared as.])
+fi
+]) # SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER

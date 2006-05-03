@@ -364,7 +364,7 @@ struct Tool {
       // Both the win32 and the posix GetEnv function returned a var. 
       if (strcmp(win32_libvar, posix_libvar) != 0) {
         fprintf(stderr, 
-                "WARNING: The Win32-call 'GetEnvironmentVar(\"LIB\")' "
+                "WARNING: The Win32-call 'GetEnvironmentVariable(\"LIB\")' "
                 "does not return the same result as the POSIX 'getenv(\"LIB\")' call! "
                 "The $LIB variable cannot be set correctly.");
       }

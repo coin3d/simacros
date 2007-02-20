@@ -354,24 +354,29 @@ struct Tool {
     // Fetch envvar the POSIX way
     const char * posix_libvar = getenv("LIB");
 
-    if ((win32_neededsize) <= 1 && (posix_libvar != NULL)) {
+    if (!win32_libvar && posix_libvar) {
       Tool::original_LIB = new std::string(posix_libvar);
     }
-    else if ((win32_neededsize > 1) && (posix_libvar == NULL)) {     
+    else if (win32_libvar && !posix_libvar) {
       Tool::original_LIB = new std::string(win32_libvar);
     }
-    else {
-      // Both the win32 and the posix GetEnv function returned a var. 
+    else if (!win32_libvar && !posix_libvar) {
+      fprintf(stderr, 
+              "ERROR: Neither the Win32-call 'GetEnvironmentVariable(\"LIB\")' "
+              "nor POSIX 'getenv(\"LIB\")' returns a valid path list. "
+              "Environment not set up properly.");
+      exit(1);
+    }
+    else { // Both are available
       if (strcmp(win32_libvar, posix_libvar) != 0) {
         fprintf(stderr, 
                 "WARNING: The Win32-call 'GetEnvironmentVariable(\"LIB\")' "
                 "does not return the same result as the POSIX 'getenv(\"LIB\")' call! "
                 "The $LIB variable cannot be set correctly.");
       }
-      else {
-        // Choose the win32 result as default.
-        Tool::original_LIB = new std::string(win32_libvar);        
-      }
+
+      // Choose the win32 result as default.
+      Tool::original_LIB = new std::string(win32_libvar);        
     }
 
     // Print out debug info.

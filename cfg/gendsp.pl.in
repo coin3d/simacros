@@ -858,7 +858,7 @@ if ( $outputfile =~ /\.so\./ ) {
 
   # "close" the dsp file
   # (this if-block should (custom edit) only be enabled for Coin)
-  if ( $group ne "" ) {
+  if ( $group ne "" && $LIBRARY eq "COIN" ) {
     print DSP "# End Group\n";
   }
   print DSP "# End Group\n";

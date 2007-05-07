@@ -246,7 +246,7 @@ mkdir -p cfg
 
 # These are part of all projects.
 for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
-         cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe \
+         cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe src/csubst.exe \
          doc/errors.txt cfg/gendsp.sh.in cfg/gendsp.pl.in
 do
   src=$SIMACROSDIR/$i
@@ -279,3 +279,4 @@ done
 # **************************************************************************
 
 echo "Done."
+

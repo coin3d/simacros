@@ -6,18 +6,25 @@
 
 # Author: Morten Eriksen, <mortene@sim.no>.
 
+SIMACROSDIR=`dirname $0`/..
+
 PATH="/usr/local/bin:$PATH"
+
 # add the path containing the autotools on the bootstrap server
-if test -d /simdev/bootstrap/bin; then
-  PATH="/simdev/bootstrap/bin:$PATH"
-fi
-if test -d `pwd`/../simacros/bootstrap/bin; then
+
+if test -d $SIMACROSDIR/bootstrap/bin; then
+  echo "LOCAL bootstrap environment detected..."
   PATH="`pwd`/../simacros/bootstrap/bin:$PATH"
 fi
-export PATH
-# ... where the patched autotools of correct version lie
 
-SIMACROSDIR=`dirname $0`/..
+if test -d /simdev/bootstrap/bin; then
+  echo "SERVER bootstrap environment detected..."
+  PATH="/simdev/bootstrap/bin:$PATH"
+fi
+
+export PATH
+
+# ... where the patched autotools of correct version lie
 
 wd=`echo "$0" | sed 's,[^\/]*$,,g'`;
 me=`echo "$0" | sed 's,^.*/,,g'`;

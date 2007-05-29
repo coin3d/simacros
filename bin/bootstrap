@@ -11,6 +11,9 @@ PATH="/usr/local/bin:$PATH"
 if test -d /simdev/bootstrap/bin; then
   PATH="/simdev/bootstrap/bin:$PATH"
 fi
+if test -d `pwd`/../simacros/bootstrap/bin; then
+  PATH="`pwd`/../simacros/bootstrap/bin:$PATH"
+fi
 export PATH
 # ... where the patched autotools of correct version lie
 

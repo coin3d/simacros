@@ -188,7 +188,7 @@ print_help(FILE * fp)
 int
 main(int argc, char ** argv)
 {
-  const char * infileptr;
+  const char * infileptr, * templatenameptr;
   char * infilename;
   const char * outfileptr;
   char * outfilename;
@@ -213,6 +213,23 @@ main(int argc, char ** argv)
   }
   ++outfileptr;
 
+  infilename = (char *) malloc(outfileptr - infileptr + 1);
+  strncpy(infilename, infileptr, outfileptr - infileptr - 1);
+  infilename[outfileptr - infileptr - 1] = '\0';
+
+  templatenameptr = strrchr(infilename, '\\');
+  if (templatenameptr == NULL) templatenameptr = infilename;
+  else templatenameptr++;
+
+  outfilename = strdup(outfileptr);
+
+  // "fake" the builtin @configure_input@ substitution
+  substvars[numsubstvars] = strdup("configure_input");
+  substvalues[numsubstvars] = (char *) malloc(512);
+  sprintf(substvalues[numsubstvars], "%s.  Generated from %s by configure.",
+          outfileptr, templatenameptr);
+  numsubstvars++;
+
   makefile = fopen("Makefile", "r");
   if (!makefile) {
     fprintf(stderr, "csubst: error: couldn't find a Makefile for reading the rues\n");
@@ -234,9 +251,6 @@ main(int argc, char ** argv)
   }
   DBG(fprintf(stdout, "dbg: srcdir = '%s'\n", srcdir););
 
-  infilename = (char *) malloc(outfileptr - infileptr + 1);
-  strncpy(infilename, infileptr, outfileptr - infileptr - 1);
-  infilename[outfileptr - infileptr - 1] = '\0';
   DBG(fprintf(stdout, "dbg: input file '%s'\n", infilename););
   /* FIXME: add @srcdir@/ to front of infile name */
   infile = fopen(infilename, "r");
@@ -246,7 +260,6 @@ main(int argc, char ** argv)
     return -1;
   }
 
-  outfilename = strdup(outfileptr);
   DBG(fprintf(stdout, "dbg: output file '%s'\n", outfilename););
   outfile = fopen(outfilename, "wb");
   if (!outfile) {

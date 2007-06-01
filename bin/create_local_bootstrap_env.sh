@@ -49,7 +49,7 @@ for archive in $SIMACROSDIR/autotools/*.tar.gz; do
   tar xvzf $archive -C $SIMACROSDIR/bootstrap/sources/
 
   echo "=== Creating local bootstrap environment for $archive"
-  cd $ARCHIVEDIR; ./configure --prefix=$SIMACROSDIR/bootstrap && $GMAKE && $GMAKE install
+  cd $ARCHIVEDIR; ./configure --prefix=$SIMACROSDIR/bootstrap --disable-ltdl-install && $GMAKE && $GMAKE install
 done
 
 echo

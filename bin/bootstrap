@@ -14,7 +14,7 @@ PATH="/usr/local/bin:$PATH"
 
 if test -d $SIMACROSDIR/bootstrap/bin; then
   echo "LOCAL bootstrap environment detected..."
-  PATH="`pwd`/../simacros/bootstrap/bin:$PATH"
+  PATH="$SIMACROSDIR/bootstrap/bin:$PATH"
 fi
 
 if test -d /simdev/bootstrap/bin; then

@@ -444,6 +444,45 @@ struct Tool {
     this->objfiles.push_back(new std::string(name));
   }
 
+  // When using Autotools under Cygwin, all .obj files contained in a
+  // .a file is also present in the same directory in un-archived
+  // form. Just doing a list with 'ar t' is therefore sufficient to
+  // find the object files to add in from the .a file.
+  //
+  // (At least for the projects I've checked with. If someone finds an
+  // environment / project where the .obj files are only present
+  // inside the .a files, it should be possible to extend this
+  // function and make it also use 'ar x' to extract the files from
+  // the .a file for linking.  -mortene.)
+  //
+  // FIXME: should 'stat' (with the proper Win32 API call) for the
+  // actual presence of the .obj-files and warn if they are not there.
+  // -mortene.
+  void addArchive(const std::string & name)
+  {
+    const std::string catalog = dirprefix(name);
+
+    std::string cmdline = "ar t " + name;
+    std::string procstdout, procstderr;
+    const DWORD exitstatus = run_process(cmdline.c_str(), procstdout, procstderr);
+    if (exitstatus != 0) {
+      (void)fprintf(stderr, "%s\n", procstderr.c_str());
+      exit(1);
+    }
+
+    char * objlist = (char *)malloc(procstdout.length() + 1);
+    (void)strcpy(objlist, procstdout.c_str());
+
+    char * next = strtok(objlist, "\n\r");
+    do {
+      while ((next[0] == '\n') || (next[0] == '\r')) { next++; }
+      const std::string obj(catalog + '\\' + next);
+      this->addFileObj(obj);
+    } while (next = strtok(NULL, "\n\r"));
+
+    free(objlist);
+  }
+
   std::string commonArgs(void)
   {
     std::string arg;
@@ -584,7 +623,7 @@ struct CompilerArgs : public Tool {
 /** Dynamic linker specifics. *************/
 struct LinkerArgs : public Tool {
   LinkerArgs::LinkerArgs()
-    : linkdll(false), releasemode(false), uselibexe(false)
+    : linkdll(false), incremental(false), releasemode(false), uselibexe(false)
   { }
 
   LinkerArgs::~LinkerArgs()
@@ -717,6 +756,10 @@ main(int argc, char ** argv)
     else if (suffixmatch(arg, ".lib")) {
       compiler.addLibFile(winpath(arg));
       linker.addLibFile(winpath(arg));
+    }
+    else if (suffixmatch(arg, ".a")) {
+      compiler.addArchive(winpath(arg));
+      linker.addArchive(winpath(arg));
     }
 
     // Handle our own invention of ".lst"-files, listing up the
@@ -909,6 +952,13 @@ main(int argc, char ** argv)
       tool->pdbname = winpath(arg.substr(5));
     }
 
+    // /NODEFAULTLIB is not a valid option for cl.exe, so make sure we
+    // invoke link.exe if that's used.
+    else if (optarg && prefixmatch(arg, "/NODEFAULTLIB:")) {
+      tool = &linker;
+      tool->passthrough.push_back(new std::string(arg));
+    }
+
     // Remaining MSVC-tool options are regarded as pass-through
     // information.
     else if (arg.at(0) == '/') { // "MSVC++ format"
@@ -1017,7 +1067,7 @@ main(int argc, char ** argv)
 
   // The geniuses at Microsoft push error messages from ``cl.exe'' out
   // on stdout -- _unless_ ``cl.exe'' is run in preprocessor modus
-  // (with the /E option), then stdout will be occupied be the preproc
+  // (with the /E option), then stdout will be occupied by the preproc
   // output, so errors must to go to stderr after all.
   bool printstdoutonstderr = exitcode != 0;
   if ((tool == &compiler) && compiler.aspreproc) { printstdoutonstderr = false; }

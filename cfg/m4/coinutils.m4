@@ -16,13 +16,13 @@ sim_ac_tmpfile1=/tmp/config-h-1.$$
 sim_ac_tmpfile2=/tmp/config-h-2.$$
 
 sed \
-  -e 's/\r//g' \
   -e '/^\/\* for setup.h \*\//, /^$/ d' \
+  -e 's///g' \
   <$srcdir/include/discard.h.in \
   >$sim_ac_tmpfile1
 
 sed \
-  -e 's/\r//g' \
+  -e 's///g' \
   <$srcdir/include/config.h.in \
   >$sim_ac_tmpfile2
 

@@ -15,14 +15,16 @@ AC_DEFUN([SIM_AC_COIN_CONFIG_H_CHECK], [
 sim_ac_tmpfile1=/tmp/config-h-1.$$
 sim_ac_tmpfile2=/tmp/config-h-2.$$
 
+stripCRs=`echo -e "s/\\r//g"`
+
 sed \
   -e '/^\/\* for setup.h \*\//, /^$/ d' \
-  -e 's///g' \
+  -e "$stripCRs" \
   <$srcdir/include/discard.h.in \
   >$sim_ac_tmpfile1
 
 sed \
-  -e 's///g' \
+  -e "$stripCRs" \
   <$srcdir/include/config.h.in \
   >$sim_ac_tmpfile2
 

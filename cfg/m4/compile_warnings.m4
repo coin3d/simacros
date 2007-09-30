@@ -119,6 +119,8 @@ AC_DEFUN([SIM_AC_DETECT_COMMON_COMPILER_FLAGS], [
 AC_REQUIRE([SIM_AC_CHECK_PROJECT_BETA_STATUS_IFELSE])
 AC_REQUIRE([SIM_AC_CHECK_SIMIAN_IFELSE])
 
+sim_ac_simian=false
+
 SIM_AC_COMPILE_DEBUG([
   if test x"$GCC" = x"yes"; then
     # no auto string.h-functions

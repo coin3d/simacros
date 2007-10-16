@@ -64,8 +64,8 @@ true)
   sim_ac_gradient_libs="-l$sim_ac_gradient_name"
   LIBS="$sim_ac_gradient_libs $LIBS"
   AC_TRY_LINK(
-    [#include <Gradient/conftest.h>],
-    [(void) conftest();],
+    [#include <Gradient/GradientDialog.h>],
+    [GradientDialog * gd = new GradientDialog();],
     [sim_ac_have_gradient=true])
   CPPFLAGS=$sim_ac_gradient_save_CPPFLAGS
   LDFLAGS=$sim_ac_gradient_save_LDFLAGS

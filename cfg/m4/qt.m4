@@ -83,8 +83,8 @@ fi
 #  SIM_AC_QT_VERSION
 #
 # Find version number of the Qt library. sim_ac_qt_version will contain
-# the full version number string, and sim_ac_qt_major_version will contain
-# only the major version number.
+# the full version number string, sim_ac_qt_major_version and
+# sim_ac_qt_minor_version will contain those parts of the version number.
 
 AC_DEFUN([SIM_AC_QT_VERSION], [
 
@@ -109,6 +109,7 @@ case $sim_ac_qt_version in
   ;;
 esac
 sim_ac_qt_major_version=`echo $sim_ac_qt_version | cut -c1`
+sim_ac_qt_minor_version=`echo $sim_ac_qt_version | sed 's%^[1-9]*\.%%' | sed 's%\.[0-9]*$%%`
 
 rm -f conftest.c
 AC_MSG_RESULT($sim_ac_qt_version)

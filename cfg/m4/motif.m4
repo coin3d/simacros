@@ -53,6 +53,7 @@ if test x"$with_motif" != xno; then
                  [sim_cv_lib_motif_avail=no])])
 
   if test x"$sim_cv_lib_motif_avail" = xyes; then
+    SIM_AC_MOTIF_VERSION
     sim_ac_motif_avail=yes
     $1
   else
@@ -214,3 +215,40 @@ else
 fi
 ])
 
+############################################################################
+# Usage:
+#  SIM_AC_MOTIF_VERSION
+#
+# Find version number of the Motif library. sim_ac_motif_version will
+# contain the full version number string, and
+# sim_ac_motif_major_version will contain only the major version
+# number. (based on SIM_AC_QT_VERSION)
+#
+# Authors:
+#   Tamer Fahmy <tamer@sim.no>,
+
+AC_DEFUN([SIM_AC_MOTIF_VERSION], [
+
+AC_CACHE_CHECK([version of Motif library], sim_ac_motif_version, [
+  AC_RUN_IFELSE(
+    [AC_LANG_SOURCE([
+#include <stdio.h>
+#include <Xm/Xm.h>
+
+int
+main(int argc, char **argv)
+{
+  FILE * fd;
+  fd = fopen("conftest.out", "w");
+  fprintf(fd, "%d.%d.%d", XmVERSION, XmREVISION, XmUPDATE_LEVEL);
+  fclose(fd);
+
+  return 0;
+}
+  ])],
+  [sim_ac_motif_version=`cat conftest.out`],
+  [AC_MSG_FAILURE([could not determine the version of the Motif library])])
+])
+
+sim_ac_motif_major_version=`echo $sim_ac_motif_version | cut -c1`
+])

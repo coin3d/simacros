@@ -64,7 +64,7 @@ true)
   sim_ac_boost_filesystem_libs="-l$sim_ac_boost_filesystem_name"
   LIBS="$sim_ac_boost_filesystem_libs $LIBS"
   AC_TRY_LINK(
-    [#include <boost/filesystem.hpp>],
+    [#include <boost/filesystem/path.hpp>],
     [boost::filesystem::path path(".");],
     [sim_ac_have_boost_filesystem=true])
   CPPFLAGS=$sim_ac_boost_filesystem_save_CPPFLAGS

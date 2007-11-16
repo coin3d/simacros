@@ -345,6 +345,9 @@ if $sim_ac_with_qt; then
         ##
         ## * "-lQtGui": Qt 4 on UNIX-like systems 
         ##
+        ## * "-lQtGui -lQtCore -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32 -lshell32"
+        ##   Should cover static linking against Qt4 on win32
+        ##
         ## * "-lqt-gl": links against the standard Debian version of the
         ##   Qt library with embedded QGL
         ##

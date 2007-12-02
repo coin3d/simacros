@@ -2,7 +2,7 @@
 # SIM_AC_CHECK_HEADER_SPIDERMONKEY([IF-FOUND], [IF-NOT-FOUND])
 #
 # This macro detects how to include the SpiderMonkey header files, and gives you
-# the necessary CPPFLAGS in $sim_ac_spidermonkey_cppflags, and also sets the 
+# the necessary CPPFLAGS in $sim_ac_spidermonkey_cppflags, and also sets the
 # config.h define HAVE_SPIDERMONKEY_H if one of them is found.
 
 AC_DEFUN([SIM_AC_CHECK_HEADER_SPIDERMONKEY],
@@ -11,7 +11,7 @@ AC_MSG_CHECKING([how to include spidermonkey's jsapi.h])
 if test x"$with_spidermonkey" != x"no"; then
   sim_ac_spidermonkey_tmp_CPPFLAGS=$CPPFLAGS
 
-  if $BUILD_WITH_MSVC; then      
+  if $BUILD_WITH_MSVC; then
     if test x"$with_spidermonkey" != xyes && test x"$with_spidermonkey" != x""; then
       sim_ac_spidermonkey_cppflags="-I${with_spidermonkey}"
     fi
@@ -23,11 +23,11 @@ if test x"$with_spidermonkey" != x"no"; then
     fi
   fi
 
-  if $BUILD_WITH_MSVC; then 
-    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DXP_WIN -DWIN32" 
-  else 
-    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DCROSS_COMPILE" 
-  fi 
+  if $BUILD_WITH_MSVC; then
+    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DXP_WIN -DWIN32"
+  else
+    CPPFLAGS="$CPPFLAGS $sim_ac_spidermonkey_cppflags -DCROSS_COMPILE"
+  fi
 
 
   SIM_AC_CHECK_HEADER_SILENT([jsapi.h], [
@@ -103,12 +103,12 @@ true)
   sim_ac_spidermonkey_name=
   sim_ac_spidermonkey_libs="-l$sim_ac_spidermonkey_name"
 
-  sim_ac_spidermonkey_build_dir=lib      
+  sim_ac_spidermonkey_build_dir=lib
 
   if test -n "$sim_ac_spidermonkey_path"; then
 
   # Trying all SpiderMonkey platforms.
-  # NOTE: This have check not been tested on IRIX, SunOS or HPUX [20050908 handegar] 
+  # NOTE: This have check not been tested on IRIX, SunOS or HPUX [20050908 handegar]
   for sim_ac_spidermonkey_build_dir in \
     "Debug" "Release" \
     "Linux_All_OPT.OBJ" "Linux_All_DBG.OBJ" \
@@ -132,7 +132,7 @@ true)
            ls $sim_ac_spidermonkey_path/$sim_ac_spidermonkey_build_dir/libsmjs*.so;
            ls $sim_ac_spidermonkey_path/$sim_ac_spidermonkey_build_dir/libsmjs*.a;
            ls $sim_ac_spidermonkey_path/$sim_ac_spidermonkey_build_dir/smjs*.lib;
-           ls $sim_ac_spidermonkey_path/$sim_ac_spidermonkey_build_dir/smjs*d.lib;) 2>/dev/null`; do        
+           ls $sim_ac_spidermonkey_path/$sim_ac_spidermonkey_build_dir/smjs*d.lib;) 2>/dev/null`; do
         case $sim_ac_spidermonkey_candidate in
         *d.lib)
           $sim_ac_spidermonkey_debug &&
@@ -171,11 +171,11 @@ true)
 
   AC_MSG_CHECKING([for Spidermonkey])
 
-  if $BUILD_WITH_MSVC; then 
-    CPPFLAGS="$CPPFLAGS -DXP_WIN -DWIN32" 
-  else 
-    CPPFLAGS="$CPPFLAGS -DCROSS_COMPILE" 
-  fi 
+  if $BUILD_WITH_MSVC; then
+    CPPFLAGS="$CPPFLAGS -DXP_WIN -DWIN32"
+  else
+    CPPFLAGS="$CPPFLAGS -DCROSS_COMPILE"
+  fi
 
   LIBS="$sim_ac_spidermonkey_libs $LIBS"
   AC_TRY_LINK(
@@ -199,7 +199,7 @@ if $sim_ac_want_spidermonkey; then
     $1
   else
     AC_MSG_RESULT([failure])
-    SIM_AC_ERROR([spidermonkey-unavailable])    
+    SIM_AC_ERROR([spidermonkey-unavailable])
     $2
   fi
 else

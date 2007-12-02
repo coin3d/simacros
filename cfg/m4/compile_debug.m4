@@ -65,16 +65,16 @@ AC_SUBST(DSUFFIX)
 # Description:
 #   Let the user decide if optimization should be attempted turned off
 #   by stripping off an "-O[0-9]" option.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
 #
 # FIXME: this is pretty much just a dirty hack. Unfortunately, this
 # seems to be the best we can do without fixing Autoconf to behave
 # properly wrt setting optimization options. 20011021 mortene.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 
 AC_DEFUN([SIM_AC_COMPILER_OPTIMIZATION], [
 AC_ARG_ENABLE(

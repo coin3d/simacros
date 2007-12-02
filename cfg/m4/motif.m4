@@ -104,7 +104,7 @@ fi
 #
 # Description:
 #   This macro checks for a GL widget that can be used with Xt/Motif.
-#  
+#
 # Variables:
 #   $sim_cv_motif_glwidget         (cached)  class + header + library
 #   $sim_cv_motif_glwidget_hdrloc  (cached)  GL | X11/GLw
@@ -113,21 +113,21 @@ fi
 #                                            glwDrawingAreaWidgetClass
 #   $sim_ac_motif_glwidget_header            GLwDrawA.h | GLwMDrawA.h
 #   $sim_ac_motif_glwidget_library           GLwM | GLw | MesaGLwM | MesaGLw
-#  
+#
 #   $LIBS = -l$sim_ac_motif_glwidget_library $LIBS
-#  
+#
 # Defines:
 #   XT_GLWIDGET                              $sim_ac_motif_glwidget_class
 #   HAVE_GL_GLWDRAWA_H                       #include <GL/GLwDrawA.h>
 #   HAVE_GL_GLWMDRAWA_H                      #include <GL/GLwMDrawA.h>
 #   HAVE_X11_GWL_GLWDRAWA_H                  #include <X11/GLw/GLwDrawA.h>
 #   HAVE_X11_GWL_GLWMDRAWA_H                 #include <X11/GLw/GLwMDrawA.h>
-#  
+#
 # Authors:
 #   Lars J. Aas <larsa@sim.no>,
 #   Loring Holden <lsh@cs.brown.edu>,
 #   Morten Eriksen <mortene@sim.no>
-#  
+#
 
 AC_DEFUN([SIM_CHECK_MOTIF_GLWIDGET], [
 

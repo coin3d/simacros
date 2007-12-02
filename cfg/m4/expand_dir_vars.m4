@@ -5,9 +5,9 @@
 # Description:
 #   Expand these variables into their correct full directory paths:
 #    $prefix  $exec_prefix  $includedir  $libdir  $datadir
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 
 AC_DEFUN([SIM_EXPAND_DIR_VARS], [
 test x"$prefix" = x"NONE" && prefix="$ac_default_prefix"

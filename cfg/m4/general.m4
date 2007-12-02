@@ -219,7 +219,7 @@ fi
 
 # SIM_AC_DEFINE_BYTESIZE_TYPES
 # ----------------------------------------------------------
-# 
+#
 AC_DEFUN([SIM_AC_DEFINE_BYTESIZE_TYPES], [
 SIM_AC_HAVE_BYTESIZE_TYPES_IFELSE([
 ], [
@@ -240,7 +240,7 @@ SIM_AC_HAVE_BYTESIZE_TYPES_IFELSE([
 ], [$1])
 ])# SIM_AC_DEFINE_BYTESIZE_TYPES
 
-#************************************************************************** 
+#**************************************************************************
 # SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER(includes, struct name, member name, variable, if-error)
 
 AC_DEFUN([SIM_AC_CHECK_TYPEOF_STRUCT_MEMBER], [

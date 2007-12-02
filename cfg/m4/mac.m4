@@ -53,10 +53,10 @@ fi
 #
 #    $sim_ac_enable_universal (true if we are building Universal Binaries)
 #    $sim_ac_universal_flags (extra flags needed for Universal Binaries)
-#  
+#
 #  The CFLAGS and CXXFLAGS variables will also be modified accordingly.
 #
-#  Note that when building Universal Binaries, dependency tracking will 
+#  Note that when building Universal Binaries, dependency tracking will
 #  be turned off.
 #
 #  Important: This macro must be called _before_ AM_INIT_AUTOMAKE.
@@ -69,7 +69,7 @@ sim_ac_enable_universal=false
 
 
 case $host_os in
-  darwin* ) 
+  darwin* )
     AC_ARG_ENABLE(
       [universal],
       AC_HELP_STRING([--enable-universal], [build Universal Binaries]), [
@@ -78,7 +78,7 @@ case $host_os in
           *) ;;
         esac])
 
-    AC_MSG_CHECKING([whether we should build Universal Binaries])   
+    AC_MSG_CHECKING([whether we should build Universal Binaries])
     if $sim_ac_enable_universal; then
       AC_MSG_RESULT([yes])
       SIM_AC_CONFIGURATION_SETTING([Build Universal Binaries], [Yes])
@@ -89,7 +89,7 @@ case $host_os in
       fi
 
       sim_ac_universal_flags="-arch i386 -arch ppc $sim_ac_universal_sdk_flags"
-      
+
       CFLAGS="$sim_ac_universal_flags $CFLAGS"
       CXXFLAGS="$sim_ac_universal_flags $CXXFLAGS"
 

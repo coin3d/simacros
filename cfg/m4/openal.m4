@@ -2,7 +2,7 @@
 # SIM_AC_CHECK_HEADER_AL([IF-FOUND], [IF-NOT-FOUND])
 #
 # This macro detects how to include the AL header file, and gives you
-# the necessary CPPFLAGS in $sim_ac_al_cppflags, and also sets the 
+# the necessary CPPFLAGS in $sim_ac_al_cppflags, and also sets the
 # config.h defines HAVE_AL_AL_H or HAVE_OPENAL_AL_H if one of them is found.
 
 AC_DEFUN([SIM_AC_CHECK_HEADER_AL],
@@ -93,7 +93,7 @@ true)
 
 case $host_os in
 darwin*)
-  sim_ac_openal_libs="-Wl,-framework,OpenAL" 
+  sim_ac_openal_libs="-Wl,-framework,OpenAL"
 ;;
 *)
   sim_ac_openal_debug=false
@@ -125,7 +125,7 @@ darwin*)
     # unset sim_ac_openal_path
   fi
 ;;
-esac 
+esac
 
   SIM_AC_CHECK_HEADER_AL([CPPFLAGS="$CPPFLAGS $sim_ac_al_cppflags"],
                          [AC_MSG_WARN([could not find al.h])])

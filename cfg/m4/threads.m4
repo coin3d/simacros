@@ -45,7 +45,7 @@ if $sim_ac_enable_threads; then
       # (we just ignore failure, as we fall through to POSIX threads)
     AC_MSG_RESULT($sim_ac_win32_threads_available)
   fi
-     
+
   if $sim_ac_win32_threads_available; then :; else
     SIM_AC_CHECK_PTHREAD([
       AC_DEFINE([USE_PTHREAD], , [define to use the POSIX threads API])

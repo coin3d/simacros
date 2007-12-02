@@ -159,7 +159,7 @@ if $sim_ac_with_qt; then
   # Check for Mac OS framework installation
   if test -z "$QTDIR"; then
     sim_ac_qt_framework_dir=/Library/Frameworks
-    # FIXME: Should we also look for the Qt framework in other  
+    # FIXME: Should we also look for the Qt framework in other
     # default framework locations (such as ~/Library/Frameworks)?
     # Or require the user to specify this explicitly, e.g. by
     # passing --with-qt-framework=xxx? 20050802 kyrah.
@@ -169,7 +169,7 @@ if $sim_ac_with_qt; then
 
   SIM_AC_HAVE_QT_FRAMEWORK
 
-  if $sim_ac_have_qt_framework; then 
+  if $sim_ac_have_qt_framework; then
     sim_ac_qt_cppflags="-I$sim_ac_qt_framework_dir/QtCore.framework/Headers -I$sim_ac_qt_framework_dir/QtOpenGL.framework/Headers -I$sim_ac_qt_framework_dir/QtGui.framework/Headers -F$sim_ac_qt_framework_dir"
     sim_ac_qt_libs="-Wl,-F$sim_ac_qt_framework_dir -Wl,-framework,QtGui -Wl,-framework,QtOpenGL -Wl,-framework,QtCore -Wl,-framework,QtXml -Wl,-framework,QtNetwork -Wl,-framework,QtSql"
   else
@@ -273,7 +273,7 @@ if $sim_ac_with_qt; then
                        #error blah!
                        #endif],[],
                       [SIM_AC_ERROR([mac-qt-but-x11-requested])])
-        else 
+        else
           # Using Qt/X11 but option --enable-darwin-x11 not given
           AC_TRY_COMPILE([#include <qapplication.h>],
                     [#if defined(__APPLE__) && defined(Q_WS_X11)
@@ -310,7 +310,7 @@ if $sim_ac_with_qt; then
       # user's system.)
       #
       # mortene.
-  
+
       if test x"$CONFIG_QTLIBS" != x""; then
         AC_MSG_CHECKING([for Qt linking with $CONFIG_QTLIBS])
 
@@ -343,7 +343,7 @@ if $sim_ac_with_qt; then
         ## Test all known possible combinations of linking against the
         ## Troll Tech Qt library:
         ##
-        ## * "-lQtGui": Qt 4 on UNIX-like systems 
+        ## * "-lQtGui": Qt 4 on UNIX-like systems
         ##
         ## * "-lQtGui -lQtCore -luser32 -lole32 -limm32 -lcomdlg32 -lgdi32 -lwinspool -lwinmm -ladvapi32 -lws2_32 -lshell32"
         ##   Should cover static linking against Qt4 on win32
@@ -673,8 +673,8 @@ fi
 # SIM_AC_QAPPLICATION_HASPENDINGEVENTS
 # -----------------------------
 #
-# Use the macro for its side-effect: it defines 
-# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if 
+# Use the macro for its side-effect: it defines
+# HAVE_QAPPLICATION_HASPENDINGEVENTS to 1 in config.h if
 # QApplication::hasPendingEvents() is available (that
 # function wasn't introduced in Qt until version 3.0).
 #
@@ -767,13 +767,13 @@ fi
 # SIM_AC_HAVE_QT_FRAMEWORK
 # ----------------------
 #
-# Determine whether Qt is installed as a Mac OS X framework.  
+# Determine whether Qt is installed as a Mac OS X framework.
 #
-# Uses the variable $sim_ac_qt_framework_dir which should either 
-# point to /Library/Frameworks or $QTDIR/lib. 
+# Uses the variable $sim_ac_qt_framework_dir which should either
+# point to /Library/Frameworks or $QTDIR/lib.
 #
-# Sets sim_ac_have_qt_framework to true if Qt is installed as 
-# a framework, and to false otherwise. 
+# Sets sim_ac_have_qt_framework to true if Qt is installed as
+# a framework, and to false otherwise.
 #
 # Author: Karin Kosina, <kyrah@sim.no>.
 
@@ -786,7 +786,7 @@ case $host_os in
     # location /Library/Frameworks, but the user wants to override it
     # by setting QTDIR to point to a non-framework install.
     if test -d $sim_ac_qt_framework_dir/QtCore.framework; then
-      sim_ac_save_ldflags_fw=$LDFLAGS 
+      sim_ac_save_ldflags_fw=$LDFLAGS
       LDFLAGS="$LDFLAGS -F$sim_ac_qt_framework_dir -framework QtCore"
       AC_CACHE_CHECK(
         [whether Qt is installed as a framework],
@@ -797,9 +797,9 @@ case $host_os in
                  [sim_ac_have_qt_framework=false])
         ])
         LDFLAGS=$sim_ac_save_ldflags_fw
-    else 
+    else
       sim_ac_have_qt_framework=false
-    fi 
+    fi
     ;;
   *)
     sim_ac_have_qt_framework=false

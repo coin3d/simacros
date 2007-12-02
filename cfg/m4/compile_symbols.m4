@@ -6,12 +6,12 @@
 #   Let the user decide if debug symbol information should be compiled
 #   in. The compiled libraries/executables will use a lot less space
 #   if stripped for their symbol information.
-# 
+#
 #   Note: this macro must be placed after either AC_PROG_CC or AC_PROG_CXX
 #   in the configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
-# 
+#
 
 AC_DEFUN([SIM_AC_DEBUGSYMBOLS], [
 AC_ARG_ENABLE(

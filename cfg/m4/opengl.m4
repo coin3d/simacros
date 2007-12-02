@@ -1,6 +1,6 @@
 # **************************************************************************
 # SIM_AC_CHECK_HEADER_SILENT([header], [if-found], [if-not-found], [includes])
-# 
+#
 # This macro will not output any header checking information, nor will it
 # cache the result, so it can be used multiple times on the same header,
 # trying out different compiler options.
@@ -59,7 +59,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_gl_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/gl.h], [
@@ -136,7 +136,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glu_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glu.h], [
@@ -154,7 +154,7 @@ if test x"$with_opengl" != x"no"; then
       AC_DEFINE([HAVE_GL_GLU_H], 1, [define if the GLU header should be included as GL/glu.h])
     ])
   fi
- 
+
   CPPFLAGS="$sim_ac_glu_save_CPPFLAGS"
   if $sim_ac_glu_header_avail; then
     if test x"$sim_ac_glu_cppflags" = x""; then
@@ -213,7 +213,7 @@ if test x"$with_opengl" != x"no"; then
 
   CPPFLAGS="$CPPFLAGS $sim_ac_glext_cppflags"
 
-  # Mac OS X framework (no X11, -framework OpenGL) 
+  # Mac OS X framework (no X11, -framework OpenGL)
   if $sim_ac_enable_darwin_x11; then :
   else
     SIM_AC_CHECK_HEADER_SILENT([OpenGL/glext.h], [
@@ -790,14 +790,14 @@ sim_ac_agl_ldflags="-Wl,-framework,ApplicationServices -Wl,-framework,AGL"
 
 LDFLAGS="$LDFLAGS $sim_ac_agl_ldflags"
 
-# see comment in Coin/src/glue/gl_agl.c: regarding __CARBONSOUND__ define 
+# see comment in Coin/src/glue/gl_agl.c: regarding __CARBONSOUND__ define
 
 AC_CACHE_CHECK(
   [whether AGL is on the system],
   sim_cv_have_agl,
   AC_TRY_LINK(
     [#include <AGL/agl.h>
-     #define __CARBONSOUND__ 
+     #define __CARBONSOUND__
      #include <Carbon/Carbon.h>],
     [aglGetCurrentContext();],
     [sim_cv_have_agl=true],
@@ -810,7 +810,7 @@ else
   ifelse([$2], , :, [$2])
 fi
 ]) # SIM_AC_HAVE_AGL_IFELSE()
- 
+
 
 AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
   AC_CACHE_CHECK([whether we can use AGL pBuffers],
@@ -819,7 +819,7 @@ AC_DEFUN([SIM_AC_HAVE_AGL_PBUFFER], [
                  [AGLPbuffer pbuffer;],
                  [sim_cv_agl_pbuffer_avail=yes],
                  [sim_cv_agl_pbuffer_avail=no])])
-  
+
   if test x"$sim_cv_agl_pbuffer_avail" = xyes; then
     ifelse([$1], , :, [$1])
   else

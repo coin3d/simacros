@@ -2,7 +2,7 @@
 # SIM_AC_CHECK_HEADER_FONTCONFIG([IF-FOUND], [IF-NOT-FOUND])
 #
 # This macro detects how to include the Fontconfig header files, and gives you
-# the necessary CPPFLAGS in $sim_ac_fontconfig_cppflags, and also sets the 
+# the necessary CPPFLAGS in $sim_ac_fontconfig_cppflags, and also sets the
 # config.h define HAVE_FONTCONFIG_H if one of them is found.
 
 AC_DEFUN([SIM_AC_CHECK_HEADER_FONTCONFIG],
@@ -92,8 +92,8 @@ true)
   if test -n "$sim_ac_fontconfig_path"; then
     for sim_ac_fontconfig_candidate in \
       `( ls $sim_ac_fontconfig_path/lib/fontconfig*.lib;
-         ls $sim_ac_fontconfig_path/lib/fontconfig*d.lib; 
-         ls $sim_ac_fontconfig_path/lib/libfontconfig*.lib; 
+         ls $sim_ac_fontconfig_path/lib/fontconfig*d.lib;
+         ls $sim_ac_fontconfig_path/lib/libfontconfig*.lib;
          ls $sim_ac_fontconfig_path/lib/libfontconfig*d.lib ) 2>/dev/null`
     do
       case $sim_ac_fontconfig_candidate in

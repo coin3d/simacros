@@ -58,7 +58,7 @@
 #include <sys/cygwin.h>
 #include <sys/stat.h>
 
-#define BUFSIZE 4096 
+#define BUFSIZE 4096
 
 // Global flag, whether or not to output debug information for the
 // wrapper itself.
@@ -151,7 +151,7 @@ run_process(const char * cmd, std::string & procstdout, std::string & procstderr
     sizeof(SECURITY_ATTRIBUTES),
     NULL, // default permissions
     TRUE // child processes inherits handles
-  }; 
+  };
 
   // Create pipes for the child process.
   HANDLE childstdinread, childstdinwrite;
@@ -160,33 +160,33 @@ run_process(const char * cmd, std::string & procstdout, std::string & procstderr
   if (!CreatePipe(&childstdinread, &childstdinwrite, &securityattribs, 0)) { fatalw32("CreatePipe()");  }
   if (!CreatePipe(&childstdoutread, &childstdoutwrite, &securityattribs, 0)) { fatalw32("CreatePipe()"); }
   if (!CreatePipe(&childstderrread, &childstderrwrite, &securityattribs, 0)) { fatalw32("CreatePipe()");  }
- 
-  // Now create the child process. 
-  PROCESS_INFORMATION childproc; 
+
+  // Now create the child process.
+  PROCESS_INFORMATION childproc;
   ZeroMemory( &childproc, sizeof(PROCESS_INFORMATION) );
 
-  STARTUPINFO startupdata; 
+  STARTUPINFO startupdata;
   ZeroMemory( &startupdata, sizeof(STARTUPINFO) );
-  startupdata.cb = sizeof(STARTUPINFO); 
+  startupdata.cb = sizeof(STARTUPINFO);
   startupdata.dwFlags = STARTF_USESTDHANDLES;
   startupdata.hStdInput = childstdinread;
   startupdata.hStdOutput = childstdoutwrite;
   startupdata.hStdError = childstderrwrite;
- 
-  // Create the child process. 
+
+  // Create the child process.
   HLOCAL cmddup = (char *)LocalAlloc(0, strlen(cmd) + 1);
   if (!cmddup) { fatalw32("LocalAlloc()"); }
   (void)strcpy((char *)cmddup, cmd);
-  BOOL result = CreateProcess(NULL, 
-                              (LPTSTR)cmddup,// command line 
-                              NULL,          // process security attributes 
-                              NULL,          // primary thread security attributes 
-                              TRUE,          // handles are inherited 
-                              0,             // creation flags 
-                              NULL,          // use parent's environment 
-                              NULL,          // use parent's current directory 
-                              &startupdata,  // STARTUPINFO pointer 
-                              &childproc);   // receives PROCESS_INFORMATION 
+  BOOL result = CreateProcess(NULL,
+                              (LPTSTR)cmddup,// command line
+                              NULL,          // process security attributes
+                              NULL,          // primary thread security attributes
+                              TRUE,          // handles are inherited
+                              0,             // creation flags
+                              NULL,          // use parent's environment
+                              NULL,          // use parent's current directory
+                              &startupdata,  // STARTUPINFO pointer
+                              &childproc);   // receives PROCESS_INFORMATION
   LocalFree(cmddup);
   if (!result) { fatalw32("CreateProcess(\"%s\", ...", cmd); }
 
@@ -195,8 +195,8 @@ run_process(const char * cmd, std::string & procstdout, std::string & procstderr
   if (!CloseHandle(childstderrwrite)) { fatalw32("CloseHandle([handle])"); }
 
   // Read output from the child process.
-  DWORD dwRead; 
-  CHAR chBuf[BUFSIZE]; 
+  DWORD dwRead;
+  CHAR chBuf[BUFSIZE];
   while (ReadFile(childstdoutread, chBuf, BUFSIZE-1, &dwRead, NULL) && (dwRead != 0)) {
     chBuf[dwRead] = '\0';
     // FIXME: I have a nagging feeling that this is _slow_, especially
@@ -229,7 +229,7 @@ run_process(const char * cmd, std::string & procstdout, std::string & procstderr
 
   return exitcode;
 }
- 
+
 /*
   @param s string to chop off end-of-line character from.
   @return true if a character was chomped, otherwise false.
@@ -326,7 +326,7 @@ struct DepTrackingArgs {
   DepTrackingArgs::DepTrackingArgs()
     : generate(false), phonytargets(false), targetobj(""), filename("")
   { }
-    
+
   bool generate, phonytargets;
   std::string targetobj, filename;
 };
@@ -361,7 +361,7 @@ struct Tool {
       Tool::original_LIB = new std::string(win32_libvar);
     }
     else if (!win32_libvar && !posix_libvar) {
-      fprintf(stderr, 
+      fprintf(stderr,
               "ERROR: Neither the Win32-call 'GetEnvironmentVariable(\"LIB\")' "
               "nor POSIX 'getenv(\"LIB\")' returns a valid path list. "
               "Environment not set up properly.");
@@ -369,21 +369,21 @@ struct Tool {
     }
     else { // Both are available
       if (strcmp(win32_libvar, posix_libvar) != 0) {
-        fprintf(stderr, 
+        fprintf(stderr,
                 "WARNING: The Win32-call 'GetEnvironmentVariable(\"LIB\")' "
                 "does not return the same result as the POSIX 'getenv(\"LIB\")' call! "
                 "The $LIB variable cannot be set correctly.");
       }
 
       // Choose the win32 result as default.
-      Tool::original_LIB = new std::string(win32_libvar);        
+      Tool::original_LIB = new std::string(win32_libvar);
     }
 
     // Print out debug info.
-    if (wrapdbg) { 
+    if (wrapdbg) {
       printf("Fetching the $LIB envvar;\n"
              " getenv(\"LIB\") => '%s'\n"
-             " GetEnvironmentVariable(\"LIB\"...) => neededsize==%d, str=='%s'\n", 
+             " GetEnvironmentVariable(\"LIB\"...) => neededsize==%d, str=='%s'\n",
              (posix_libvar==NULL) ? "NULL" : posix_libvar,
              win32_neededsize, (win32_neededsize > 1) ? win32_libvar : "NULL");
     }
@@ -425,7 +425,7 @@ struct Tool {
       // debug
 //        else (void)fprintf(stdout, "===> FAILED\n");
     }
-    
+
     // Assume library is in a default location (as given by envvar
     // LIB) if it couldn't be found.
     std::string * add = fullname ? fullname : new std::string(name);
@@ -588,7 +588,7 @@ struct CompilerArgs : public Tool {
     }
 
     arg += this->commonArgs();
-    
+
     return arg;
   }
 
@@ -706,7 +706,7 @@ main(int argc, char ** argv)
       exit(0);
     }
   }
-  
+
   struct CompilerArgs compiler;
   struct LinkerArgs linker;
   struct Tool * tool = &compiler;
@@ -718,7 +718,7 @@ main(int argc, char ** argv)
     bool optarg = arg.at(0)=='-' || arg.at(0)=='/';
     bool forcompiler = (tool == &compiler);
 
-    
+
     if (match(arg, "--wrapdbg")) {
       // Ignore (handled already).
     }

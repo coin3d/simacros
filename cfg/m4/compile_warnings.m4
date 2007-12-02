@@ -196,7 +196,7 @@ if $BUILD_WITH_MSVC && test x$sim_ac_msvc_version = x6; then
       [],
       [sim_ac_have_nobool=true])])
 fi
- 
+
 if $sim_ac_have_nobool; then
   sim_ac_nobool_CXXFLAGS="/noBool"
   AC_MSG_RESULT([yes])

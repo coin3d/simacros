@@ -3,7 +3,7 @@
 #   SIM_AC_CHECK_FINK ([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 #
 # Description:
-#   This macro checks for the availability of the Fink system. Fink is 
+#   This macro checks for the availability of the Fink system. Fink is
 #   dpkg-based distribution of UNIX tools for Mac OS X that installs
 #   libraries and headers into /sw.
 #
@@ -28,7 +28,7 @@ if test -d /sw/include && test -d /sw/lib; then
   sim_ac_fink_ldflags="-L/sw/lib"
   CPPFLAGS="$CPPFLAGS $sim_ac_fink_cppflags"
   LDFLAGS="$LDFLAGS $sim_ac_fink_ldflags"
-else 
+else
   AC_MSG_RESULT([no])
   sim_ac_fink_cppflags=
   sim_ac_fink_ldflags=

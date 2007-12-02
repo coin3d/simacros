@@ -2,7 +2,7 @@
 # SIM_AC_CHECK_HEADER_FREETYPE([IF-FOUND], [IF-NOT-FOUND])
 #
 # This macro detects how to include the FreeType header files, and gives you
-# the necessary CPPFLAGS in $sim_ac_freetype_cppflags, and also sets the 
+# the necessary CPPFLAGS in $sim_ac_freetype_cppflags, and also sets the
 # config.h define HAVE_FREETYPE_H if one of them is found.
 
 AC_DEFUN([SIM_AC_CHECK_HEADER_FREETYPE],
@@ -93,8 +93,8 @@ true)
   if test -n "$sim_ac_freetype_path"; then
     for sim_ac_freetype_candidate in \
       `( ls $sim_ac_freetype_path/lib/freetype*.lib;
-         ls $sim_ac_freetype_path/lib/freetype*d.lib; 
-         ls $sim_ac_freetype_path/lib/libfreetype*.lib; 
+         ls $sim_ac_freetype_path/lib/freetype*d.lib;
+         ls $sim_ac_freetype_path/lib/libfreetype*.lib;
          ls $sim_ac_freetype_path/lib/libfreetype*d.lib ) 2>/dev/null`
     do
       case $sim_ac_freetype_candidate in

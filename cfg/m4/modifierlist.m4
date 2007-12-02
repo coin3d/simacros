@@ -1,6 +1,6 @@
 dnl ************************************************************************
 dnl Usage:
-dnl   SIM_AC_PARSE_MODIFIER_LIST( MODIFIER-LIST-STRING, MODIFIER-VARIABLES, 
+dnl   SIM_AC_PARSE_MODIFIER_LIST( MODIFIER-LIST-STRING, MODIFIER-VARIABLES,
 dnl       MODIFIER-LIST, opt ACTION-ON-SUCCESS, opt ACTION-ON-FAILURE )
 dnl
 dnl Description:

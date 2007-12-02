@@ -23,7 +23,7 @@
 /GA optimize for Windows Application     /EHs enable synchronous C++ EH
 /GD optimize for Windows DLL             /EHa enable asynchronous C++ EH
 /Gf enable string pooling                /EHc extern "C" defaults to nothrow
-/GF enable read-only string pooling      /QIfdiv[-] enable Pentium FDIV fix 
+/GF enable read-only string pooling      /QIfdiv[-] enable Pentium FDIV fix
 /GZ enable runtime debug checks          /QI0f[-] enable Pentium 0x0f fix
 
                               -OUTPUT FILES-

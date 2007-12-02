@@ -22,7 +22,7 @@ AC_REQUIRE([AC_PATH_XTRA])
 sim_ac_enable_darwin_x11=false
 
 case $host_os in
-  darwin* ) 
+  darwin* )
     AC_ARG_ENABLE([darwin-x11],
       AC_HELP_STRING([--enable-darwin-x11],
                      [enable X11 on Darwin [[default=--disable-darwin-x11]]]),

@@ -61,7 +61,7 @@ read_rules(FILE * fp)
     substvars[numsubstvars] = (char *) malloc(varnamelen+1);
     strncpy(substvars[numsubstvars], linebuf, varnamelen);
     substvars[numsubstvars][varnamelen] = '\0';
- 
+
     varvaluelen = strlen(eqsign);
     eqsign += 2;
     varvaluelen -= 2; /* advance value start pointers */

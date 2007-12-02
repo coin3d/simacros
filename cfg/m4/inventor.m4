@@ -316,7 +316,7 @@ AC_DEFUN([AC_TOLOWER], [translit([$1], [[A-Z]], [[a-z]])])
 #   Lars J. Aas  <larsa@sim.no>
 #   Morten Eriksen  <mortene@sim.no>
 
-AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE], 
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_NODE],
 [m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_node)],
        [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
 AC_CACHE_CHECK(
@@ -348,7 +348,7 @@ m4_do([popdef([cache_variable])],
 #   Lars J. Aas  <larsa@sim.no>
 #   Morten Eriksen  <mortene@sim.no>
 
-AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE], 
+AC_DEFUN([SIM_AC_HAVE_INVENTOR_VRMLNODE],
 [m4_do([pushdef([cache_variable], sim_cv_have_oiv_[]AC_TOLOWER([$1])_vrmlnode)],
        [pushdef([DEFINE_VARIABLE], HAVE_[]AC_TOUPPER([$1]))])
 AC_CACHE_CHECK(

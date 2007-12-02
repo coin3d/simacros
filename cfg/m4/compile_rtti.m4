@@ -6,10 +6,10 @@
 #   Let the user decide if RTTI should be compiled in. The compiled
 #   libraries/executables will use a lot less space if they don't
 #   contain RTTI.
-# 
+#
 #   Note: this macro must be placed after AC_PROG_CXX in the
 #   configure.in script.
-# 
+#
 # Author: Morten Eriksen, <mortene@sim.no>.
 
 AC_DEFUN([SIM_AC_RTTI_SUPPORT], [

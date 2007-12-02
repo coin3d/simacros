@@ -158,7 +158,7 @@ AC_DEFUN([SIM_AC_CHECK_DLD], [
 # SIM_AC_CHECK_DYLD([ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
 # -------------------------------------------------------------------
 #
-#  Try to use the Mac OS X dynamik link editor method 
+#  Try to use the Mac OS X dynamik link editor method
 #  NSLookupAndBindSymbol()
 #
 # Author: Karin Kosina, <kyrah@sim.no>
@@ -166,7 +166,7 @@ AC_DEFUN([SIM_AC_CHECK_DLD], [
 AC_DEFUN([SIM_AC_CHECK_DYLD], [
 AC_ARG_ENABLE(
   [dyld],
-  [AC_HELP_STRING([--disable-dyld], 
+  [AC_HELP_STRING([--disable-dyld],
                   [don't use run-time link bindings under Mac OS X])],
   [case $enableval in
   yes | true ) sim_ac_dyld=true ;;

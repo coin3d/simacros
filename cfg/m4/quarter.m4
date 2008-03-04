@@ -32,15 +32,18 @@ AC_ARG_WITH(
 case $sim_ac_want_quarter in
 true)
   $sim_ac_have_quarter && break
+  
   sim_ac_quarter_save_CPPFLAGS=$CPPFLAGS
   sim_ac_quarter_save_LDFLAGS=$LDFLAGS
   sim_ac_quarter_save_LIBS=$LIBS
   sim_ac_quarter_debug=false
+  
   test -n "`echo -- $CPPFLAGS $CFLAGS $CXXFLAGS | grep -- '-g\\>'`" &&
     sim_ac_quarter_debug=true
   # test -z "$sim_ac_quarter_path" -a x"$prefix" != xNONE &&
   #   sim_ac_quarter_path=$prefix
   sim_ac_quarter_name=Quarter
+  
   if test -n "$sim_ac_quarter_path"; then
     for sim_ac_quarter_candidate in \
       `( ls $sim_ac_quarter_path/lib/Quarter.lib;
@@ -54,6 +57,7 @@ true)
         sim_ac_quarter_name=`basename $sim_ac_quarter_candidate .lib` ;;
       esac
     done
+    
     sim_ac_quarter_cppflags="-I$sim_ac_quarter_path/include"
     CPPFLAGS="$CPPFLAGS $sim_ac_quarter_cppflags"
     sim_ac_quarter_ldflags="-L$sim_ac_quarter_path/lib"
@@ -61,9 +65,25 @@ true)
     # unset sim_ac_quarter_candidate
     # unset sim_ac_quarter_path
   fi
-  sim_ac_quarter_libs="-l$sim_ac_quarter_name"
-  LIBS="$sim_ac_quarter_libs $LIBS"
-  #  echo $LIBS
+  
+  case $host_os in
+  darwin*)
+    # FIXME rolvs 20080303: QuicFix[tm] to use MacOS frameworks.
+    if test -d "/Library/Frameworks/Quarter.framework/"; then
+      sim_ac_quarter_cppflags="-I/Library/Frameworks/Quarter.framework/Headers"
+      sim_ac_quarter_libs="-framework Quarter"
+    else
+      sim_ac_quarter_libs="-l$sim_ac_quarter_name"
+    fi
+    ;;
+  *)
+    sim_ac_quarter_libs="-l$sim_ac_quarter_name"
+    ;;
+  esac
+  
+  CPPFLAGS="$CPPFLAGS $sim_ac_quarter_cppflags"
+  LIBS="$LIBS $sim_ac_quarter_libs"
+  
   AC_TRY_LINK(
     [#include <Quarter/Quarter.h>],
     [SIM::Coin3D::Quarter::Quarter::init();],

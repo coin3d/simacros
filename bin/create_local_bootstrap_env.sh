@@ -5,7 +5,7 @@
 # Requirements: GNU tar, GNU make
 #
 # Author: Tamer Fahmy <tamer@sim.no>
-# Date: 2006-05-29 on a nearly sunny day in Trondheim, Norway
+# Date: 2007-05-29 on a nearly sunny day in Trondheim, Norway
 #
 
 SIMACROSDIR="`pwd`/`dirname $0`/.."

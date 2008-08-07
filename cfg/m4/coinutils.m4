@@ -18,7 +18,7 @@ sim_ac_tmpfile2=/tmp/config-h-2.$$
 stripCRs=`echo "s/\\r//g"`
 
 sed \
-  -e '/^\/\* for setup.h \*\//, /^$/ d' \
+  -e '/^\/\* for setup.h \*\//,/^$/ d' \
   -e "$stripCRs" \
   <$srcdir/src/discard.h.in \
   >$sim_ac_tmpfile1

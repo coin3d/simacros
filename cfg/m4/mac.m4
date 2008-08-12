@@ -1,4 +1,39 @@
 # **************************************************************************
+# SIM_AC_MACOS10_DEPLOYMENT_TARGET
+
+AC_DEFUN([SIM_AC_MACOS10_DEPLOYMENT_TARGET], [
+
+# might not case on host_os here in case of crosscompiling in the future...
+case "$host_os" in
+darwin*)
+  AC_MSG_CHECKING([OS X deployment target])
+  cat > conftest.c << EOF
+int VerOSX = __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__;
+EOF
+  # The " *"-parts of the last sed-expression on the next line are necessary
+  # because at least the Solaris/CC preprocessor adds extra spaces before and
+  # after the trailing semicolon.
+  sim_ac_macos10_deployment_target_code=`$CXXCPP $CPPFLAGS conftest.c 2>/dev/null | grep '^int VerOSX' | sed 's%^int VerOSX = %%' | sed 's% *;.*$%%'`
+  rm -f conftest.c
+
+  case "$sim_ac_macos10_deployment_target_code" in
+  10* )
+    sim_ac_macos10_deployment_version_string=`echo $sim_ac_macos10_deployment_target_code | sed -e 's/^\(.\)\(.\)\(.\)\(.\)/\1\2.\3.\4/;'`
+    sim_ac_macos10_deployment_target_major_version=`echo $sim_ac_macos10_deployment_target_code | cut -c1-2`
+    sim_ac_macos10_deployment_target_minor_version=`echo $sim_ac_macos10_deployment_target_code | cut -c3`
+    sim_ac_macos10_deployment_target_micro_version=`echo $sim_ac_macos10_deployment_target_code | cut -c4`
+    AC_MSG_RESULT($sim_ac_macos10_deployment_target_version_string)
+    ;;
+  * )
+    :
+    AC_MSG_RESULT([-])
+    ;;
+  esac
+  ;;
+esac
+]) # SIM_AC_MACOS10_DEPLOYMENT_TARGET
+
+# **************************************************************************
 # SIM_AC_MAC_CPP_ADJUSTMENTS
 #
 # Add --no-cpp-precomp if necessary. Without this option, the
@@ -101,3 +136,4 @@ case $host_os in
     fi
 esac
 ]) # SIM_AC_UNIVERSAL_BINARIES
+

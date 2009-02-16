@@ -32,6 +32,11 @@ if test x"$with_libsndfile" != xno; then
   if test -d "${with_libsndfile}/include"; then
     sim_ac_libsndfile_cppflags="-I${with_libsndfile}/include"
     sim_ac_libsndfile_ldflags="-L${with_libsndfile}/lib"
+    # binary distributions of libsndfile from at least 1.0.18 have the
+    # libraries residing in the toplevel directory. 20090216 tamer.
+    if ! test -d "${with_libsndfile}/lib"; then
+      sim_ac_libsndfile_ldflags="-L${with_libsndfile}"
+    fi
   else
     # According to thammer, this is the  directory layout in older
     # binary distributions of libsndfile for Windows. 20060307 kyrah
@@ -52,7 +57,7 @@ if test x"$with_libsndfile" != xno; then
     [for libsndfile],
     sim_cv_lib_libsndfile_avail,
     [
-      sim_ac_lsf_libs="-lsndfile -llibsndfile"
+      sim_ac_lsf_libs="-lsndfile -llibsndfile -llibsndfile-1"
       sim_ac_lsfchk_hit=false
       for sim_ac_lsf_lib in "" $sim_ac_lsf_libs; do
         if $sim_ac_lsfchk_hit; then :; else

@@ -521,6 +521,26 @@ struct Tool {
       r = SetEnvironmentVariable("INCLUDE", inclVar );
     }
 
+    char * tmpVar = getenv("TMP");
+    if( tmpVar != NULL ) {
+      char tmpVarWin32[MAX_PATH];
+      cygwin_conv_to_win32_path(tmpVar, tmpVarWin32);
+      if (wrapdbg) {
+        printf("Setting $TMP according to 'getenv(\"TMP\")'; '%s'\n", tmpVarWin32);
+      }
+      r = SetEnvironmentVariable("TMP", tmpVarWin32);
+    }
+
+    char * tempVar = getenv("TEMP");
+    if( tempVar != NULL ) {
+      char tempVarWin32[MAX_PATH];
+      cygwin_conv_to_win32_path(tempVar, tempVarWin32);
+      if (wrapdbg) {
+        printf("Setting $TEMP according to 'getenv(\"TEMP\")'; '%s'\n", tempVarWin32);
+      }
+      r = SetEnvironmentVariable("TEMP", tempVarWin32);
+    }
+
     // All passthrough options -- that is, the MSVC++ style arguments
     // given that starts with a "/".
     for (i = this->passthrough.begin(); i != this->passthrough.end(); i++) {

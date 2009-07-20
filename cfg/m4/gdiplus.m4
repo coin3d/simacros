@@ -9,7 +9,7 @@
 #   Tamer Fahmy <tamer@sim.no>
 
 AC_DEFUN([SIM_AC_HAVE_GDIPLUS_IFELSE], [
-AC_CHECK_HEADERS([windows.h], , AC_ERROR([no windows.h]))
+AC_CHECK_HEADERS([windows.h])
 : ${sim_ac_have_gdiplus=false}
 $sim_ac_have_gdiplus && break
 sim_ac_gdiplus_save_CPPFLAGS=$CPPFLAGS

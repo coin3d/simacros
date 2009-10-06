@@ -11,10 +11,8 @@
 SIMACROSDIR="`pwd`/`dirname $0`/.."
 
 if test ! -d $SIMACROSDIR/bootstrap; then
-  echo "A directory named bootstrap/ needs to exist in the simacros root directory."
-  echo "Please, ensure that this requirement is met and try again."
-  echo
-  exit 23
+  echo "Creating bootstrap directory."
+  mkdir $SIMACROSDIR/bootstrap
 fi
 
 if test ! -d $SIMACROSDIR/autotools; then

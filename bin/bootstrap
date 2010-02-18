@@ -6,53 +6,6 @@
 
 # Author: Morten Eriksen, <mortene@sim.no>.
 
-# **************************************************************************
-
-# The copying below needs to be done after running the Autotools, since
-# some of these files should overwrite ones installed by them.
-#
-# (E.g. Automake installs config.guess and config.sub, but those are
-# usually older then the ones contained in simacros (which are fetched
-# directly from the FSF distribution site)).
-syncfiles () {
-    echo "Syncing common files with simacros..."
-    
-    mkdir -p cfg
-    
-# These are part of all projects.
-    for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
-        cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe src/csubst.exe \
-        doc/errors.txt cfg/gendsp.sh.in cfg/gendsp.pl.in
-    do
-        src=$SIMACROSDIR/$i
-        dst=$cwd/cfg/`basename $i`
-        if ! cmp -s $src $dst; then
-            echo "  => cp $src $dst"
-            cp $src $dst
-        fi
-    done
-    
-# Then the files that are only part of some projects.
-    for i in cfg/m4/simage.m4 cfg/m4/coin.m4 \
-        cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/sogtk.m4 cfg/m4/soqt.m4 \
-        cfg/m4/smallchange.m4 cfg/m4/simvoleon.m4 \
-        bin/doxy4win.pl \
-        cfg/gendspex.sh \
-        cfg/workspace_template_vc6.txt cfg/project_template_main_vc6.txt \
-        cfg/project_template_source_vc6.txt
-    do
-        src=$SIMACROSDIR/$i
-        dst=$cwd/cfg/`basename $i`
-        if test -e $dst; then
-            if ! cmp -s $src $dst; then
-                echo "  => cp $src $dst"
-                cp $src $dst
-            fi
-        fi
-    done
-}
-
-
 SIMACROSDIR=`dirname $0`/..
 
 PATH="/usr/local/bin:$PATH"
@@ -95,12 +48,12 @@ cd $cwd
 
 # trap 'echo "Failed";' 1
 
-AUTOCONF_VER=2.6[023456789]
-AUTOMAKE_VER=1.11
-LIBTOOL_VER=2.2
+AUTOCONF_VER=2.5[023456789]
+AUTOMAKE_VER=1.[789]
+LIBTOOL_VER=1.5
 GETTEXT_VER=0.10
 
-AUTOMAKE_ADD="--foreign --force-missing"
+AUTOMAKE_ADD=--foreign
 
 do_aclocal=true
 do_automake=true # automake is _sloooow_
@@ -275,18 +228,13 @@ echo "Running autoconf (generating the configure script)..."
 exit=$?
 test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 
-syncfiles
-
 if $do_automake; then
   echo "Running automake (generating the Makefile.in files)..."
 # FIXME: should investigate if we can fix the Automake warnings
 # we get, instead of hiding them with grep. 20030522 mortene.
-#  ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
-#    grep -v -e 'not a standard library name' \
-#            -e 'created both with libtool and without') 3>&1 1>&2 2>&3
-
-  #Not hiding errors anymore - BFG 20100120
-  automake $AUTOMAKE_ADD 
+  ( automake $AUTOMAKE_ADD 3>&1 1>&2 2>&3 | \
+    grep -v -e 'not a standard library name' \
+            -e 'created both with libtool and without') 3>&1 1>&2 2>&3
   exit=$?
   test $exit != 0 && echo "exit code was $exit - does not necessarily mean failure"
 else
@@ -295,4 +243,50 @@ fi
 
 # **************************************************************************
 
+# The copying below needs to be done after running the Autotools, since
+# some of these files should overwrite ones installed by them.
+#
+# (E.g. Automake installs config.guess and config.sub, but those are
+# usually older then the ones contained in simacros (which are fetched
+# directly from the FSF distribution site)).
+
+echo "Syncing common files with simacros..."
+
+mkdir -p cfg
+
+# These are part of all projects.
+for i in cfg/config.guess cfg/config.sub cfg/depcomp cfg/install-sh \
+         cfg/missing cfg/mkinstalldirs src/wrapmsvc.exe src/csubst.exe \
+         doc/errors.txt cfg/gendsp.sh.in cfg/gendsp.pl.in
+do
+  src=$SIMACROSDIR/$i
+  dst=$cwd/cfg/`basename $i`
+  if ! cmp -s $src $dst; then
+    echo "  => cp $src $dst"
+    cp $src $dst
+  fi
+done
+
+# Then the files that are only part of some projects.
+for i in cfg/m4/simage.m4 cfg/m4/coin.m4 \
+         cfg/m4/sowin.m4 cfg/m4/soxt.m4 cfg/m4/sogtk.m4 cfg/m4/soqt.m4 \
+         cfg/m4/smallchange.m4 cfg/m4/simvoleon.m4 \
+         bin/doxy4win.pl \
+         cfg/gendspex.sh \
+         cfg/workspace_template_vc6.txt cfg/project_template_main_vc6.txt \
+         cfg/project_template_source_vc6.txt
+do
+  src=$SIMACROSDIR/$i
+  dst=$cwd/cfg/`basename $i`
+  if test -e $dst; then
+    if ! cmp -s $src $dst; then
+      echo "  => cp $src $dst"
+      cp $src $dst
+    fi
+  fi
+done
+
+# **************************************************************************
+
 echo "Done."
+

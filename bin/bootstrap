@@ -53,7 +53,7 @@ AUTOMAKE_VER=1.[789]
 LIBTOOL_VER=1.5
 GETTEXT_VER=0.10
 
-AUTOMAKE_ADD=--foreign
+AUTOMAKE_ADD=
 
 do_aclocal=true
 do_automake=true # automake is _sloooow_

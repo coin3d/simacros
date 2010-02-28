@@ -111,7 +111,7 @@ fi
 #
 #   $sim_ac_motif_glwidget_class             glwMDrawingAreaWidgetClass |
 #                                            glwDrawingAreaWidgetClass
-#   $sim_ac_motif_glwidget_header            GLwDrawA.h | GLwMDrawA.h
+#   $sim_cv_motif_glwidget_header  (cached)  GLwDrawA.h | GLwMDrawA.h
 #   $sim_ac_motif_glwidget_library           GLwM | GLw | MesaGLwM | MesaGLw
 #
 #   $LIBS = -l$sim_ac_motif_glwidget_library $LIBS
@@ -167,18 +167,18 @@ if test "x$sim_cv_motif_glwidget" = "xUNKNOWN"; then
   ifelse([$2], , :, [$2])
 else
   sim_ac_motif_glwidget_class=`echo $sim_cv_motif_glwidget | cut -d" " -f1`
-  sim_ac_motif_glwidget_header=`echo $sim_cv_motif_glwidget | cut -d" " -f2`
+  sim_cv_motif_glwidget_header=`echo $sim_cv_motif_glwidget | cut -d" " -f2`
   sim_ac_motif_glwidget_library=`echo $sim_cv_motif_glwidget | cut -d" " -f3`
 
   AC_CACHE_CHECK(
-    [the $sim_ac_motif_glwidget_header header location],
+    [the $sim_cv_motif_glwidget_header header location],
     sim_cv_motif_glwidget_hdrloc,
     [sim_cv_motif_glwidget_hdrloc=UNKNOWN
     for location in X11/GLw GL; do
       if test "x$sim_cv_motif_glwidget_hdrloc" = "xUNKNOWN"; then
         AC_TRY_CPP(
           [#include <X11/Intrinsic.h>
-          #include <$location/$sim_ac_motif_glwidget_header>],
+          #include <$location/$sim_cv_motif_glwidget_header>],
           [sim_cv_motif_glwidget_hdrloc=$location],
           [sim_cv_motif_glwidget_hdrloc=UNKNOWN])
       fi
@@ -187,7 +187,7 @@ else
   if test "x$sim_cv_motif_glwidget_hdrloc" = "xUNKNOWN"; then
     ifelse([$2], , :, [$2])
   else
-    if test "x$sim_ac_motif_glwidget_header" = "xGLwDrawA.h"; then
+    if test "x$sim_cv_motif_glwidget_header" = "xGLwDrawA.h"; then
       if test "x$sim_cv_motif_glwidget_hdrloc" = "xGL"; then
         AC_DEFINE(HAVE_GL_GLWDRAWA_H, 1,
           [Define this to use OpenGL widget from <GL/GLwDrawA.h>])
@@ -229,7 +229,7 @@ fi
 
 AC_DEFUN([SIM_AC_MOTIF_VERSION], [
 
-AC_CACHE_CHECK([version of Motif library], sim_ac_motif_version, [
+AC_CACHE_CHECK([version of Motif library], sim_cv_motif_version, [
   AC_RUN_IFELSE(
     [AC_LANG_SOURCE([
 #include <stdio.h>
@@ -246,11 +246,11 @@ main(int argc, char **argv)
   return 0;
 }
   ])],
-  [sim_ac_motif_version=`cat conftest.out`],
+  [sim_cv_motif_version=`cat conftest.out`],
   [AC_MSG_FAILURE([could not determine the version of the Motif library])])
 ])
 
-sim_ac_motif_major_version=`echo $sim_ac_motif_version | cut -c1`
+sim_ac_motif_major_version=`echo $sim_cv_motif_version | cut -c1`
 ])
 
 ############################################################################

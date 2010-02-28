@@ -23,9 +23,6 @@
 
 AC_DEFUN([SIM_AC_SOGUI_SETUP_DOXYGEN],
 [
-AC_ARG_VAR([htmldir],
-           [destination for HTML docs (default ${datadir}/$1/html)])
-
 AC_ARG_ENABLE(html,
   AC_HELP_STRING([--enable-html], [build and install $1 HTML documentation]),
   [case $enableval in
@@ -35,14 +32,12 @@ AC_ARG_ENABLE(html,
   [want_html=no])
 
 case $htmldir in
-"")
-  htmldir="$datadir/$1/html"
-  ;;
 /*)
   # do nothing - absolute path
   ;;
 *)
-  htmldir="\${prefix}/$htmldir"
+  # expand $docdir and append /html
+  htmldir=`eval echo ${docdir}`/html
   ;;
 esac
 

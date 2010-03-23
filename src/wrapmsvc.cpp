@@ -285,12 +285,23 @@ prefixmatch(const std::string s, const std::string prefix)
     s.substr(0, prefix.length()).compare(prefix)==0;
 }
 
+static std::string
+toLower(const std::string & in)
+{
+  std::string s = in;
+  int n = s.length();
+  for (int i=0;i<n;++i) {
+    s[i]=tolower(s[i]);
+  }
+  return s;
+}
+
 static inline bool
-suffixmatch(const std::string s, const std::string suffix)
+suffixmatch(const std::string & s, const std::string & suffix)
 {
   return
     s.length() >= suffix.length() &&
-    s.substr(s.length() - suffix.length()).compare(suffix)==0;
+    toLower(s.substr(s.length() - suffix.length())).compare(toLower(suffix))==0;
 }
 
 static bool

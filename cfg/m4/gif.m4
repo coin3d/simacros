@@ -77,7 +77,13 @@ extern "C" {
 }
 #endif /* __cplusplus */
 ],
-    [(void)EGifOpenFileName(0L, 0);],
+    [
+#if GIFLIB_MAJOR > 5 || GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1
+(void)EGifOpenFileName(0L, 0, NULL);
+#else
+(void)EGifOpenFileName(0L, 0);
+#endif
+],
     [sim_ac_have_giflib=true])
   # giflib has become dependent on Xlib :(
   if test x"$sim_ac_have_giflib" = xfalse; then
@@ -101,7 +107,13 @@ extern "C" {
 }
 #endif /* __cplusplus */
 ],
-      [(void)EGifOpenFileName(0L, 0);],
+      [
+#if GIFLIB_MAJOR > 5 || GIFLIB_MAJOR == 5 && GIFLIB_MINOR >= 1
+(void)EGifOpenFileName(0L, 0, NULL);
+#else
+(void)EGifOpenFileName(0L, 0);
+#endif
+],
       [sim_ac_have_giflib=true])
   fi
   CPPFLAGS=$sim_ac_giflib_save_CPPFLAGS
